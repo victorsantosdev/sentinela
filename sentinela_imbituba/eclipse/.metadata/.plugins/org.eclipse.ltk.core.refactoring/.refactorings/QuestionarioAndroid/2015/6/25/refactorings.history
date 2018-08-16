@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;QuestionarioAndroid&apos;&#x0A;- Original project: &apos;QuestionarioAndroid&apos;&#x0A;- Original element: &apos;QuestionarioAndroid/src/app.victor.questionario.automatedtests&apos;" description="Delete element" element1="/src&lt;app.victor.questionario.automatedtests" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1434597133719" subPackages="false" version="1.0"/>
+</session>

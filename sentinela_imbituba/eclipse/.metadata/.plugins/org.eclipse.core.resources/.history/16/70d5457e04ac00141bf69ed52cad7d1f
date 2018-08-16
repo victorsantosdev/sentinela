@@ -1,0 +1,117 @@
+package app.victor.questionario.activities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Context;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import app.victor.questionario.bancodados.Perguntas;
+import app.victor.questionario.bancodados.PerguntasORM;
+import app.victor.questionario.login.LoginActivity;
+import app.victor.questionarioandroid.R;
+
+
+public class ListaPerguntasBancoActivity extends Activity {
+
+    // variáveis posicionadas de maneira global à classe OnCreate para terem
+    // seus valores acessados pelas demais funções
+
+    // lista com os cabecalhos das perguntas
+    TextView cabecalho;
+    List<TextView> allCabecalhos;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.listaperguntasbanco_layout);
+        setUserSessionData();
+
+        List<Perguntas> perguntasList = PerguntasORM.getPerguntas(ListaPerguntasBancoActivity.this);
+        if (perguntasList.size() == 0) {
+
+            Intent intent = new Intent(this, BancoVazioActivity.class);
+            startActivity(intent);
+        }
+
+        LinearLayout linearlayout = (LinearLayout) findViewById(R.id.ll_questionario);
+
+        allCabecalhos = new ArrayList<TextView>();
+
+        // gera a quantidade de textViews e editTexts proporcionais ao número de
+        // perguntas registradas no banco
+
+        for (int i = 0; i < perguntasList.size(); i++) {
+
+            // monta o cabeçalho das perguntas
+            cabecalho = new TextView(ListaPerguntasBancoActivity.this);
+            allCabecalhos.add(cabecalho);
+            // espacamento entre componentes
+            cabecalho.setPadding(0, 35, 0, 0);
+            cabecalho.setText("ID: " + perguntasList.get(i).getId() + " -- Pergunta: " + perguntasList.get(i).getPerguntaTexto());
+            cabecalho.setId(i);
+            linearlayout.addView(cabecalho);  
+            cabecalho.setOnClickListener(cabecalhosOnClickListener);
+        }
+    }
+
+    OnClickListener cabecalhosOnClickListener = new OnClickListener() {
+
+        public void onClick(View v) {
+            int id = ((TextView)v).getId();
+            Toast.makeText(getApplicationContext(), "ID do item clickado: "+id, Toast.LENGTH_SHORT).show();
+            //Passa o valor do ID para a activity de edição/apagar
+            Intent intent = new Intent(this, ListaPerguntasBancoActivity.class);
+            intent.putExtra("numPerguntas", qtdPerguntas);
+            startActivity(intent);
+        }
+
+    };
+    
+    //Funções de callback dos botões
+    public void btn_registarPerguntas(View view) {
+
+        Intent intent = new Intent(this, QuantidadePerguntasActivity.class);    
+        startActivity(intent);
+    }
+
+
+    public void setUserSessionData() {
+        TextView sessionInfo = (TextView) findViewById(R.id.username_sessionData);
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.userPreferences, Context.MODE_PRIVATE);
+
+        String usuarioLogado = sharedPreferences.getString(LoginActivity.usuarioLogado, "");
+        String usuarioUltimoLogin = sharedPreferences.getString(LoginActivity.ultimoLogin, "");
+        if (!usuarioLogado.trim().equals("") && !usuarioUltimoLogin.trim().equals("")) {
+            sessionInfo.setText("Usuário Logado: " + usuarioLogado + "\nÚltimo login: " + usuarioUltimoLogin);
+        }
+    }
+
+    public void logout(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.userPreferences, Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        String usuarioLogadoCheck = sharedPreferences.getString(LoginActivity.usuarioLogado, "");
+        if (!usuarioLogadoCheck.equals("")) {
+            Toast.makeText(getApplicationContext(), "Logout do usuário " + usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            editor.clear();
+            editor.commit();
+        }
+        moveTaskToBack(true); 
+        ListaPerguntasBancoActivity.this.finish();
+        Intent goLogin = new Intent(this, LoginActivity.class);
+        //Limpa a stack de activities pra resolver o bug do usuário apertar o botão de voltar e ele voltar na sessão já logado pelo sharedPreferences
+        goLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(goLogin);
+    }
+}
+
+

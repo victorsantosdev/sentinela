@@ -1,0 +1,72 @@
+@charset "utf-8";
+/* CSS Document */
+
+a.menu
+{
+	color: #8cc641;
+	text-decoration: none;
+	display: block;
+	border-bottom-width: 1px;
+	border-bottom-color:  #333;
+	border-bottom-style: solid;
+}
+a.menu:hover
+{
+	background: #CCC;
+	color: #CCC;
+}
+
+body
+{
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 50px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+}
+div.geral
+{   background-color:#CCC;
+    height:auto;
+	width: 850px;
+	border: thin;
+	border-style:outset;
+	border-color:#333;
+	margin-left: auto;
+	margin-right: auto;
+	font-size:medium;
+	font-family:Verdana, Geneva, sans-serif;
+}
+
+div.titulo
+{
+	background-color: #CCC;
+	text-align:center; 
+    height:auto;
+	width: 850px;
+	border: thin;
+	border-style:outset;
+	border-color:#333;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: xx-large;
+	font-family:Verdana, Geneva, sans-serif;
+}
+
+
+div.aviso
+{
+	background-color: #CCC;
+	text-align:center; 
+    height:auto;
+	width: 850px;
+	border: thin;
+	border-style:outset;
+	border-color:#333;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: xx-large;
+	font-family:Verdana, Geneva, sans-serif;
+}

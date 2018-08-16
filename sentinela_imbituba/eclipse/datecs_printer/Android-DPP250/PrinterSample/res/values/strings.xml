@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Printer Sample</string>
+        
+    <string name="scan">Scan</string>
+    <string name="scan_header">SELECT PRINTER</string>
+    <string name="scan_menu">Scan</string>
+    <string name="scan_error">Scan failed</string>
+    <string name="scan_title">Please wait...</string>
+    <string name="scan_text">Scanning for devices...</string>   
+    <string name="scan_unknown_device">[UNKNOWN DEVICE]</string>        
+    
+    <string name="connecting">Connecting to device...</string>
+    
+    <string name="print_self_test">Print self test</string>
+    <string name="print_text">Print text</string>
+    <string name="print_image">Print image</string>
+    <string name="print_page">Print page</string>
+    <string name="print_barcode">Print barcode</string>
+    <string name="read_card">Read card</string>
+    <string name="read_barcode">Read barcode</string>
+	 
+	<string name="please_wait">Please wait</string>
+	<string name="printing_self_test">Printing self test...</string>
+	<string name="printing_text">Printing text...</string>
+    <string name="printing_image">Printing image...</string>
+    <string name="printing_page">Printing page...</string>
+    <string name="printing_barcode">Printing barcode...</string>
+    <string name="reading_card">Reading card...</string>
+    <string name="reading_barcode">Reading barcode...</string>
+    
+    <string name="failed_print_self_test">Failed to print self test</string>
+    <string name="failed_print_text">Failed to print text</string>
+    <string name="failed_print_image">Failed to print image</string>
+    <string name="failed_print_page">Failed to print page</string>
+    <string name="failed_print_barcode">Failed to print barcode</string>
+    <string name="failed_read_card">Failed to read card</string>
+    <string name="failed_read_barcode">Failed to read barcode</string>
+    
+    <string name="error">Error</string>
+    <string name="warning">Warning</string>
+    <string name="card_info">Card information</string>
+    <string name="barcode">Barcode</string>
+    <string name="card_no">Card#</string>
+    <string name="holder">Holder</string>
+    <string name="exp_date">Exp date</string>
+    <string name="no_card_read">No card information read</string>
+    <string name="unsupport_page_mode">Printer does not supports page mode</string>
+	<string name="unknown_printer">Unknown printer</string>                
+</resources>

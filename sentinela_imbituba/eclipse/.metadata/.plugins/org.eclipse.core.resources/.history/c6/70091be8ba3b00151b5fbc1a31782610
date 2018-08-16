@@ -1,0 +1,322 @@
+package app.victor.sentinela.imbituba.mapstuff;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.MapFragment;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import app.victor.sentinela.imbituba.R;
+import app.victor.sentinela.imbituba.bancodados.TerrenoORM;
+import app.victor.sentinela.imbituba.bdclasses.Terreno;
+import android.support.v4.app.FragmentActivity;
+
+public class MapsActivity extends FragmentActivity {
+
+    private GoogleMap mMap;
+    private HashMap<Marker, TerrenoMarker> mMarkersHashMap;
+    private ArrayList<TerrenoMarker> mMyMarkersArray = new ArrayList<TerrenoMarker>();
+    private int terrenoSelecionadoID = 0;
+    private double latitudeAtual = 0;
+    private double longitudeAtual = 0;
+    private String cidadeSelecionada;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.mapsactivity_layout);
+        setUserSessionData();
+
+        // Recebe o intent da MainActivity
+        Bundle extras = getIntent().getExtras();
+        cidadeSelecionada = extras.getString("cidadeSelecionada");
+        Toast.makeText(MapsActivity.this, "cidade selecionada: " + cidadeSelecionada, Toast.LENGTH_SHORT).show();
+
+        // Initialize the HashMap for Markers and MyMarker object
+        mMarkersHashMap = new HashMap<Marker, TerrenoMarker>();
+        List<Address> addresses = null;
+        double latitude = 0;
+        double longitude = 0;
+
+        List<Terreno> cidadeFromTerrenos = TerrenoORM.getTerrenosfromCidade(MapsActivity.this, cidadeSelecionada);
+
+        for (int i = 0; i < cidadeFromTerrenos.size(); i++) {
+            Geocoder geocoder = new Geocoder(MapsActivity.this);
+            try {
+                addresses = geocoder.getFromLocationName(cidadeFromTerrenos.get(i).getEndereco() + " " + cidadeFromTerrenos.get(i).getNumero() + ","
+                        + cidadeFromTerrenos.get(i).getBairro() + "," + cidadeFromTerrenos.get(i).getCidade() + "," + cidadeFromTerrenos.get(i).getEstado(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            latitude = 0;
+            longitude = 0;
+            if (addresses.size() > 0) {
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
+                Log.v("Debug coordenadas", "Cidade ID:" + cidadeFromTerrenos.get(i).getTerreno_id() + "latitude: " + latitude + " longitude: " + longitude);
+            }
+
+            mMyMarkersArray.add(new TerrenoMarker(cidadeFromTerrenos.get(i).getEndereco(), latitude, longitude, cidadeFromTerrenos.get(i)));
+        }
+
+        for (int i = 0; i < mMyMarkersArray.size(); i++) {
+            Log.v("Debug mMyMarkersArray", "mMyMarkersArray:ID: " + mMyMarkersArray.get(i).getmTerreno().getTerreno_id());
+        }
+
+        setUpMap();
+        plotMarkers(mMyMarkersArray);
+
+        // unfocus edit text from radius input
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    // função retorna a distância em km entre dois pares latitude/longitude
+    // conhecidos
+    public static float distFrom(double latitudeAtual2, double longitudeAtual2, Double double1, Double double2) {
+        double earthRadius = 6371; // kilometers
+        double dLat = Math.toRadians(double1 - latitudeAtual2);
+        double dLng = Math.toRadians(double2 - longitudeAtual2);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(latitudeAtual2)) * Math.cos(Math.toRadians(double1)) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        float dist = (float) (earthRadius * c);
+
+        return dist;
+    }
+
+    public void setUserSessionData() {
+        TextView sessionInfo = (TextView) findViewById(R.id.username_sessionData);
+        SharedPreferences sharedPreferences = getSharedPreferences(app.victor.sentinela.imbituba.login.LoginActivity.userPreferences, Context.MODE_PRIVATE);
+
+        String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
+        String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.ultimoLogin, "");
+        if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
+            sessionInfo.setText("Usuário Logado: " + usuarioLogado + "\nÚltimo login: " + usuarioUltimoLogin);
+        }
+    }
+
+    public void logout(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences(app.victor.sentinela.imbituba.login.LoginActivity.userPreferences, Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
+        if (!usuarioLogadoCheck.equals("")) {
+            Toast.makeText(getApplicationContext(), "Logout do usuário " + usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            editor.clear();
+            editor.commit();
+        }
+
+        moveTaskToBack(true);
+        MapsActivity.this.finish();
+        Intent goLogin = new Intent(this, app.victor.sentinela.imbituba.login.LoginActivity.class);
+        // Limpa a stack de activities pra resolver o bug do usuário apertar o
+        // botão de voltar e ele voltar na sessão já logado pelo
+        // sharedPreferences
+        goLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(goLogin);
+    }
+
+    private void setUpMap() {
+
+        // Do a null check to confirm that we have not already instantiated the
+        // map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapsfragment)).getMap();
+            mMap.setMyLocationEnabled(true);
+
+            if (mMap != null) {
+                // rotina para centralizar o mapa na posição geográfica atual do
+                // usuário
+
+                // pegando um item randomico do arraylist dos terrenos para
+                // focar o mapa
+                // utilizando a maneira convencional pode não dar certo pelo
+                // fato do gps demorar para fazer o lock-on e dizer a posição
+                // correta do usuário
+//                Random random_number = new Random();
+//                int r_index = random_number.nextInt(mMyMarkersArray.size());
+//                TerrenoMarker r_marker = mMyMarkersArray.get(r_index);
+//                latitudeAtual = r_marker.getmLatitude();
+//                longitudeAtual = r_marker.getmLongitude();
+//
+//                Log.v("Debug coordenada_atual", "Latitude:" + latitudeAtual + "longitude: " + longitudeAtual);
+//
+//                CameraPosition position = new CameraPosition.Builder().target(new LatLng(latitudeAtual, longitudeAtual)).zoom(17).build();
+                
+                
+//                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+
+                zoomUserLocation();
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+                        marker.showInfoWindow();
+                        return true;
+                    }
+                });
+
+            } else
+                Toast.makeText(getApplicationContext(), "Unable to create Maps", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void zoomUserLocation() {
+        
+        Random random_number = new Random();
+        int r_index = random_number.nextInt(mMyMarkersArray.size());
+        TerrenoMarker r_marker = mMyMarkersArray.get(r_index);
+        latitudeAtual = r_marker.getmLatitude();
+        longitudeAtual = r_marker.getmLongitude();
+
+        Log.v("Debug coordenada_atual", "Latitude:" + latitudeAtual + "longitude: " + longitudeAtual);
+
+        CameraPosition position = new CameraPosition.Builder().target(new LatLng(latitudeAtual, longitudeAtual)).zoom(17).build();
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
+        
+    }
+    
+    
+    private void plotMarkers(ArrayList<TerrenoMarker> markers) {
+        if (markers.size() > 0) {
+            for (TerrenoMarker tMarker : markers) {
+
+                MarkerOptions markerOption = new MarkerOptions().position(new LatLng(tMarker.getmLatitude(), tMarker.getmLongitude()));
+                // muda a cor do texto conforme a situação cadastral
+                if (tMarker.getmTerreno().getSituacao_cadastral().trim().equals("regular")) {
+                    markerOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+                } else {
+                    markerOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }
+
+                Marker currentMarker = mMap.addMarker(markerOption);
+                mMarkersHashMap.put(currentMarker, tMarker);
+
+                mMap.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
+            }
+        }
+        zoomUserLocation();
+
+    }
+
+    public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        public MarkerInfoWindowAdapter() {}
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+
+        @SuppressLint("InflateParams")
+        @Override
+        public View getInfoContents(Marker marker) {
+            View v = getLayoutInflater().inflate(R.layout.infowindow_layout, null);
+            TerrenoMarker tMarker = mMarkersHashMap.get(marker);
+            terrenoSelecionadoID = tMarker.getmTerreno().getTerreno_id();
+            TextView markerInfosTerreno = (TextView) v.findViewById(R.id.marker_infosTerreno);
+            markerInfosTerreno.setText("Endereco: " + tMarker.getmTerreno().getEndereco() + "\n" + "Bairro: " + tMarker.getmTerreno().getBairro() + "\n" + "Cidade/UF: "
+                    + tMarker.getmTerreno().getCidade() + "/" + tMarker.getmTerreno().getEstado());
+
+            mostraInfoTerreno(terrenoSelecionadoID);
+            return v;
+        }
+    }
+
+    public void mostraInfoTerreno(int terrenoSelecionadoID) {
+        int clickedTerrenoID = terrenoSelecionadoID;
+        TextView tv_infosTerreno = (TextView) findViewById(R.id.terrenoEscolhido);
+        Log.v("Debug terrenoSelecionado", "ID do terreno selecionado: " + terrenoSelecionadoID);
+        Terreno terrenoEscolhido = TerrenoORM.getTerrenofromID(this, clickedTerrenoID);
+
+        tv_infosTerreno.setText("Endereco: " + terrenoEscolhido.getEndereco() + "\n" + "Bairro: " + terrenoEscolhido.getBairro() + "\n" + "Cidade/UF: "
+                + terrenoEscolhido.getCidade() + "/" + terrenoEscolhido.getEstado() + "\n" + "Situação Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
+
+        Button infracaoButton = (Button) findViewById(R.id.btn_goDetalheInfracao);
+
+        if (terrenoEscolhido.getSituacao_cadastral().trim().equals("regular")) {
+            tv_infosTerreno.setTextColor(getResources().getColor(R.color.green));
+            Log.v("Debug terrenoRegular", "terrenoEscolhido:ID: " + terrenoEscolhido.getTerreno_id() + " Situação Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
+            infracaoButton.setText("Detalhes");
+        } else {
+            tv_infosTerreno.setTextColor(getResources().getColor(R.color.red));
+            Log.v("Debug terrenoRegular", "terrenoEscolhido:ID: " + terrenoEscolhido.getTerreno_id() + " Situação Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
+            infracaoButton.setText("Detalhes");
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public void btn_aplicaRaio(View view) {
+        EditText etRadio = (EditText) findViewById(R.id.etRaioBusca);
+        if (etRadio.getText().toString().isEmpty()) {
+            Log.v("Debug EditText vazio", "edit text vazio");
+
+            for (int i = 0; i < mMyMarkersArray.size(); i++) {
+                Log.v("Debug mMyMarkersArray", "mMyMarkersArray:ID: " + mMyMarkersArray.get(i).getmTerreno().getTerreno_id());
+            }
+            mMap.clear();
+            plotMarkers(mMyMarkersArray);
+        } else {
+
+            float raio = Float.parseFloat(etRadio.getText().toString());
+            Toast.makeText(MapsActivity.this, "valor do raio: " + raio, Toast.LENGTH_SHORT).show();
+            ArrayList<TerrenoMarker> newMarkersArray = new ArrayList<TerrenoMarker>();
+            newMarkersArray = (ArrayList<TerrenoMarker>) mMyMarkersArray.clone();
+
+            for (int i = 0; i < newMarkersArray.size(); i++) {
+                double distCoordenadas = 0;
+                distCoordenadas = distFrom(latitudeAtual, longitudeAtual, newMarkersArray.get(i).getmLatitude(), newMarkersArray.get(i).getmLongitude());
+                Log.v("Debug distCoordenadas", "distCoordenadas: " + distCoordenadas);
+
+                if (distCoordenadas > raio) {
+                    newMarkersArray.remove(i);
+                    Log.v("Debug terrenosRemovidos", "ID do terreno removido: " + i);
+                }
+            }
+            mMap.clear();
+            plotMarkers(newMarkersArray);
+        }
+    }
+
+    public void btn_goInfracao(View view) {
+
+        if (terrenoSelecionadoID == 0) {
+            Toast.makeText(MapsActivity.this, "Nenhum terreno selecionado.", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Log.v("Debug infracaoButton", "ID do terreno selecionado: " + terrenoSelecionadoID);
+            Intent goDetalhes = new Intent(this, app.victor.sentinela.imbituba.tabactivity.DetalhesTerrenoActivity.class);
+            goDetalhes.putExtra("terrenoSelecionadoID", terrenoSelecionadoID);
+            goDetalhes.putExtra("cidadeSelecionada", cidadeSelecionada);
+            // moveTaskToBack(true);
+            startActivity(goDetalhes);
+        }
+        // moveTasktoBack antes de uma activity com maps faz com que o
+        // aplicativo feche sem retornar nenhum tipo de warning nem log
+
+    }
+}

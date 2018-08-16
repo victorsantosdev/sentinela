@@ -1,0 +1,8 @@
+MIDlet-1: UniversalReaderSample,,com.datecs.samples.j2me.UniversalReaderSample
+MIDlet-Jar-Size: 22071
+MIDlet-Jar-URL: J2MEUniversalReader.jar
+MIDlet-Name: Universal Reader
+MIDlet-Vendor: Datecs Ltd.
+MIDlet-Version: 1.0.0
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: MIDP-2.0

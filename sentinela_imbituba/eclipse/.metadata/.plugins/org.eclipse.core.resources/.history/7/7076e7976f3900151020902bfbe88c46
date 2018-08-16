@@ -1,0 +1,132 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- area de registro do usuario -->
+
+    <TableLayout
+        android:id="@+id/homeTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
+
+        <!-- area de registro do usuario -->
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#dcdcdc"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/username_sessionData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.85"
+                android:padding="30dip"
+                android:text="Username_session"
+                android:textColor="#000"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:id="@+id/img_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.15"
+                android:onClick="logout"
+                android:src="@drawable/ic_action_export" />
+        </TableRow>
+    </TableLayout>
+
+    <fragment
+        android:id="@+id/mapsfragment"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="252dp"
+        android:layout_weight="0.34" />
+
+    <TableLayout
+        android:id="@+id/dadosTerrenoTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#dcdcdc"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/tvRaioBusca"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:padding="10dip"
+                android:text="Raio (Km)"
+                android:textColor="#000"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/etRaioBusca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:inputType="numberDecimal|numberSigned"
+                android:padding="10dip" >
+
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/aplicarRaio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="0.2"
+                android:gravity="left"
+                android:onClick="btn_aplicaRaio"
+                android:padding="10dip"
+                android:text="Aplicar"
+                 />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#dcdcdc"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/terrenoEscolhido"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="15dip"
+                android:text="Nenhum terreno escolhido"
+                android:textColor="#000"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btn_goDetalheInfracao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.4"
+                android:gravity="left"
+                android:onClick="btn_goInfracao"
+                android:padding="15dip"
+                android:text=" "
+                android:textAlignment="gravity" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

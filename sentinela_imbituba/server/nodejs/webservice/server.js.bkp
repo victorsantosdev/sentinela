@@ -1,0 +1,100 @@
+//Define the port to listen to
+var PORT = process.env.PORT || 30000;
+//Include retify.js framework
+var restify = require('restify');
+
+var options = {
+  serverName: 'v_server',
+  accept: [ 'application/json' ]
+}
+
+//Create the server
+var server = restify.createServer(options);
+
+//Use bodyParser to read the body of incoming requests
+server.use(restify.bodyParser({ mapParams: false }));
+
+//server.listen(PORT, '0.0.0.0');
+server.listen(PORT, '192.168.25.229');
+console.log("listening "+PORT);
+
+//Include db_conn file
+var db_conn = require('./db_connection');
+
+//TERRENOS RESOURCES
+var terrenosResource = require('./terrenos');
+terrenosResource.setAndConnectClient(db_conn.client);
+
+//DEFINE THE URIs THE SERVER IS RESPONDING TO
+server.get('/terrenos', function(req, res) {
+
+  var terrenos = new terrenosResource.terrenos() ;
+
+  //Get all terrenos from DB
+  terrenos.getAllTerrenos(function(result){
+
+    var allTerrenos = result;
+    var terrenos_jsonObj = {};
+    terrenos_jsonObj['terrenos'] = result;
+    //If no events exist return 200 and and empty JSON
+    if(allTerrenos.length == 0) {
+      //res.send(200, []);
+      res.send([]);
+      return;
+    //}else res.send(200, res_jsonObj);
+    }else res.send(terrenos_jsonObj);
+  });
+
+});
+
+
+//MULTAS RESOURCES
+var multasResource = require('./multas');
+
+//DEFINE THE URIs THE SERVER IS RESPONDING TO
+server.get('/multas', function(req, res) {
+
+  var multas = new multasResource.multas() ;
+
+  //Get all events from DB
+  multas.getAllMultas(function(result){
+
+    var allMultas = result;
+    var multas_jsonObj = {};
+    multas_jsonObj['multas'] = result;
+    //If no events exist return 200 and and empty JSON
+    if(allMultas.length == 0) {
+      //res.send(200, []);
+      res.send([]);
+      return;
+    //}else res.send(200, res_jsonObj);
+    }else res.send(multas_jsonObj);
+  });
+
+});
+
+
+//USUARIOS RESOURCES
+var usuariosResource = require('./usuarios');
+
+//DEFINE THE URIs THE SERVER IS RESPONDING TO
+server.get('/usuarios', function(req, res) {
+
+  var usuarios = new usuariosResource.usuarios() ;
+
+  //Get all events from DB
+  usuarios.getAllUsuarios(function(result){
+
+    var allUsuarios = result;
+    var usuarios_jsonObj = {};
+    usuarios_jsonObj['usuarios'] = result;
+    //If no events exist return 200 and and empty JSON
+    if(allUsuarios.length == 0) {
+      //res.send(200, []);
+      res.send([]);
+      return;
+    //}else res.send(200, res_jsonObj);
+    }else res.send(usuarios_jsonObj);
+  });
+
+});

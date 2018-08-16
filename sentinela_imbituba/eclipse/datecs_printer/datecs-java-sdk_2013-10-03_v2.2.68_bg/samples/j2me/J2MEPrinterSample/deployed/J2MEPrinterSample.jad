@@ -1,0 +1,8 @@
+MIDlet-1: PrinterSample,,com.datecs.samples.j2me.PrinterSample
+MIDlet-Jar-Size: 173743
+MIDlet-Jar-URL: J2MEPrinterSample.jar
+MIDlet-Name: Printer Sample
+MIDlet-Vendor: Datecs Ltd.
+MIDlet-Version: 1.0.0
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: MIDP-2.0
