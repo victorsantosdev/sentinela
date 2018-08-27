@@ -34,7 +34,7 @@ public class FotoActivity extends Activity {
     String formatedDate;
 
     /**
-     * View onde a foto tirada será exibida
+     * View onde a foto tirada sera exibida
      */
     
     private ImageView imageView;
@@ -54,7 +54,7 @@ public class FotoActivity extends Activity {
             success = picsDir.mkdirs();
         }
         if (!success) {
-            Log.d("DEBUG", "Erro na criação da pasta " + picsDir);
+            Log.d("DEBUG", "Erro na criacao da pasta " + picsDir);
         } else {
             Log.d("DEBUG", "Pasta " + picsDir + " criada com sucesso!");
         }
@@ -119,7 +119,7 @@ public class FotoActivity extends Activity {
                         picture.compress(Bitmap.CompressFormat.JPEG, 90, out);
                         out.flush();
                         out.close();
-                        Toast.makeText(FotoActivity.this, "Procedimento de fotografia concluído com sucesso.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FotoActivity.this, "Procedimento de fotografia concluido com sucesso.", Toast.LENGTH_SHORT).show();
                         
                         
 //                        Log.d("DEBUG", "fotoPath " + infracao.get_fotoPath());
@@ -138,13 +138,13 @@ public class FotoActivity extends Activity {
 
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
-                Toast.makeText(FotoActivity.this, "Interfaceamento com a câmera cancelado.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FotoActivity.this, "Interfaceamento com a camera cancelado.", Toast.LENGTH_SHORT).show();
                 Intent goDetalhesTerreno = new Intent(this, DetalhesTerrenoActivity.class);
                 startActivity(goDetalhesTerreno);
 
             } else {
                 // Image capture failed, advise user
-                Toast.makeText(FotoActivity.this, "Ocorreu um erro na interface com a câmera do dispositivo.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FotoActivity.this, "Ocorreu um erro na interface com a camera do dispositivo.", Toast.LENGTH_SHORT).show();
                 Intent goDetalhesTerreno = new Intent(this, DetalhesTerrenoActivity.class);
                 startActivity(goDetalhesTerreno);
             }

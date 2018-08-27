@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
         String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.ultimoLogin, "");
         if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
-            sessionInfo.setText("Usu√°rio Logado: " + usuarioLogado + "\n√öltimo login: " + usuarioUltimoLogin);
+            sessionInfo.setText("Usu·rio Logado: " + usuarioLogado + "\n⁄ltimo login: " + usuarioUltimoLogin);
         }
     }
 
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
         Editor editor = sharedPreferences.edit();
         String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         if (!usuarioLogadoCheck.equals("")) {
-            Toast.makeText(getApplicationContext(), "Logout do usu√°rio "+ usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Logout do usu·rio "+ usuarioLogadoCheck, Toast.LENGTH_LONG).show();
         editor.clear();
         editor.commit();      
         }

@@ -21,11 +21,11 @@ public class ImageHandling {
         ContextWrapper cw = (ContextWrapper) context;
 
         // path to /data/data/yourapp/app_data/imageDir
-        //o pŕoprio sistema de arquivos do android coloca o app_ na frente do nome da pasta
-        File directory = cw.getDir("imagensterrenos", Context.MODE_PRIVATE);
+        //o proprio sistema de arquivos do android coloca o app_ na frente do nome da pasta
+        File directory = cw.getDir("imagens", Context.MODE_PRIVATE);
         // Create imageDir
         File mypath = new File(directory, foto_nome);
-        Log.v("Salvando imagem", "salvando imagem em : " + mypath);
+        Log.v("Salvando imagem", "salvando imagem em : " + mypath); //app_imagens
 
         FileOutputStream fos = null;
         try {
@@ -45,13 +45,14 @@ public class ImageHandling {
     /* metodo para carregar a imagem do path */
     public static Bitmap loadImageFromTerrenosFolder(Context context, String img_name) {
 
-        String newImageName = img_name.replaceAll("app_imagensterrenos/", "");
+        //app_imagens se refere ao prefixo adicionado app_ imagens
+        String newImageName = img_name.replaceAll("imagens/", ""); //removes the prefix imagens/ which refers to the folder the imagens are stored in the server
         Log.v("Nome da imagem a ser carregada", "nome da imagem a ser carregada: " + newImageName);
         ContextWrapper cw = (ContextWrapper) context;
         Bitmap b = null;
         try {
-            // path to /data/data/yourapp/app_data/imageDir //o pŕoprio sistema de arquivos do android coloca o app_ na frente do nome da pasta
-            File directory = cw.getDir("imagensterrenos", Context.MODE_PRIVATE);
+            // path to /data/data/yourapp/app_data/imageDir //o proprio sistema de arquivos do android coloca o app_ na frente do nome da pasta
+            File directory = cw.getDir("imagens", Context.MODE_PRIVATE); //aqui basta especificar o sufixo, o _app o android ja coloca
             // Create imageDir
             File mypath = new File(directory, newImageName);
             Log.v("Carregando imagem", "carregando imagem de : " + mypath);
@@ -92,7 +93,7 @@ public class ImageHandling {
     /* metodo para carregar a imagem do path */
     public static Bitmap loadImageFromTempFolder(Context context, String img_name) {
 
-        String newImageName = img_name.replaceAll("app_imagensterrenos/", "");
+        String newImageName = img_name.replaceAll("imagens/", ""); //removes the prefix imagens/ which refers to the folder the imagens are stored in the server
         Log.v("Nome da imagem a ser carregada", "nome da imagem a ser carregada: " + newImageName);
         ContextWrapper cw = (ContextWrapper) context;
         Bitmap b = null;

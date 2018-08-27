@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:gravity="center_vertical"
+		android:padding="10dip"
+		android:orientation="horizontal"
+		android:background="@color/header_color">
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/bluetooth"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:layout_weight="0"
+			android:layout_marginLeft="10dp"
+			android:textSize="24sp"
+			android:text="@string/scan_header"
+			android:textColor="@color/text_color"/>
+	</LinearLayout>
+	
+	<ListView
+		android:layout_width="fill_parent"
+		android:id="@+id/devices"
+		android:layout_height="fill_parent"
+		android:layout_weight="1">
+	</ListView>
+</LinearLayout>

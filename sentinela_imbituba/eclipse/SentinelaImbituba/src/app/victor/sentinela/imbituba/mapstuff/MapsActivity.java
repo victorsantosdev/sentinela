@@ -58,31 +58,39 @@ public class MapsActivity extends FragmentActivity {
 
         // Initialize the HashMap for Markers and MyMarker object
         mMarkersHashMap = new HashMap<Marker, TerrenoMarker>();
-        List<Address> addresses = null;
+        //List<Address> geo_addresses = null;
+        
         double latitude = 0;
         double longitude = 0;
 
         List<Terreno> cidadeFromTerrenos = TerrenoORM.getTerrenosfromCidade(MapsActivity.this, cidadeSelecionada);
-
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        Log.v("Debug coordenadas", "cidadeFromTerrenos.size(): " + cidadeFromTerrenos.size());
         for (int i = 0; i < cidadeFromTerrenos.size(); i++) {
-            Geocoder geocoder = new Geocoder(MapsActivity.this);
+            List<Address> geo_addresses = null;
             try {
-                addresses = geocoder.getFromLocationName(cidadeFromTerrenos.get(i).getEndereco() + " " + cidadeFromTerrenos.get(i).getNumero() + ","
+                geo_addresses = geocoder.getFromLocationName(cidadeFromTerrenos.get(i).getEndereco() + " " + cidadeFromTerrenos.get(i).getNumero() + ","
                         + cidadeFromTerrenos.get(i).getBairro() + "," + cidadeFromTerrenos.get(i).getCidade() + "," + cidadeFromTerrenos.get(i).getEstado(), 1);
+
+                Log.v("Debug coordenadas",
+                        "Cidade ID: " + cidadeFromTerrenos.get(i).getTerreno_id() + " " + cidadeFromTerrenos.get(i).getEndereco() + " " + cidadeFromTerrenos.get(i).getNumero()
+                                + "," + cidadeFromTerrenos.get(i).getBairro() + "," + cidadeFromTerrenos.get(i).getCidade() + "," + cidadeFromTerrenos.get(i).getEstado());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            latitude = 0;
-            longitude = 0;
-            if (addresses.size() > 0) {
-                latitude = addresses.get(0).getLatitude();
-                longitude = addresses.get(0).getLongitude();
-                Log.v("Debug coordenadas", "Cidade ID:" + cidadeFromTerrenos.get(i).getTerreno_id() + "latitude: " + latitude + " longitude: " + longitude);
-            }
 
-            mMyMarkersArray.add(new TerrenoMarker(cidadeFromTerrenos.get(i).getEndereco(), latitude, longitude, cidadeFromTerrenos.get(i)));
+            if (geo_addresses.size()>0) {
+                Address addr = geo_addresses.get(0);
+                latitude= addr.getLatitude();
+                longitude=addr.getLongitude();
+                
+                Log.v("Debug coordenadas", "--latitude: " + latitude + " --longitude: " + longitude);
+                mMyMarkersArray.add(new TerrenoMarker(cidadeFromTerrenos.get(i).getEndereco(), latitude, longitude, cidadeFromTerrenos.get(i)));
+            }
         }
 
+        
         for (int i = 0; i < mMyMarkersArray.size(); i++) {
             Log.v("Debug mMyMarkersArray", "mMyMarkersArray:ID: " + mMyMarkersArray.get(i).getmTerreno().getTerreno_id());
         }
@@ -114,7 +122,7 @@ public class MapsActivity extends FragmentActivity {
         String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.ultimoLogin, "");
         if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
-            sessionInfo.setText("Usuário Logado: " + usuarioLogado + "\nÚltimo login: " + usuarioUltimoLogin);
+            sessionInfo.setText("Usu�rio Logado: " + usuarioLogado + "\nUltimo login: " + usuarioUltimoLogin);
         }
     }
 
@@ -123,7 +131,7 @@ public class MapsActivity extends FragmentActivity {
         Editor editor = sharedPreferences.edit();
         String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         if (!usuarioLogadoCheck.equals("")) {
-            Toast.makeText(getApplicationContext(), "Logout do usuário " + usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Logout do usu�rio " + usuarioLogadoCheck, Toast.LENGTH_LONG).show();
             editor.clear();
             editor.commit();
         }
@@ -148,7 +156,8 @@ public class MapsActivity extends FragmentActivity {
             mMap.setMyLocationEnabled(true);
 
             if (mMap != null) {
-                // rotina para centralizar o mapa na posição geográfica atual do
+                // rotina para centralizar o mapa na posição geográfica atual
+                // do
                 // usuário
 
                 // pegando um item randomico do arraylist dos terrenos para
@@ -171,7 +180,7 @@ public class MapsActivity extends FragmentActivity {
     }
 
     private void zoomUserLocation() {
-        
+
         Random random_number = new Random();
         int r_index = random_number.nextInt(mMyMarkersArray.size());
         TerrenoMarker r_marker = mMyMarkersArray.get(r_index);
@@ -183,10 +192,9 @@ public class MapsActivity extends FragmentActivity {
         CameraPosition position = new CameraPosition.Builder().target(new LatLng(latitudeAtual, longitudeAtual)).zoom(17).build();
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(position));
-        
+
     }
-    
-    
+
     private void plotMarkers(ArrayList<TerrenoMarker> markers) {
         if (markers.size() > 0) {
             for (TerrenoMarker tMarker : markers) {
@@ -206,7 +214,7 @@ public class MapsActivity extends FragmentActivity {
                 mMap.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
             }
         }
-        
+
     }
 
     public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
@@ -239,17 +247,17 @@ public class MapsActivity extends FragmentActivity {
         Terreno terrenoEscolhido = TerrenoORM.getTerrenofromID(this, clickedTerrenoID);
 
         tv_infosTerreno.setText("Endereco: " + terrenoEscolhido.getEndereco() + "\n" + "Bairro: " + terrenoEscolhido.getBairro() + "\n" + "Cidade/UF: "
-                + terrenoEscolhido.getCidade() + "/" + terrenoEscolhido.getEstado() + "\n" + "Situação Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
+                + terrenoEscolhido.getCidade() + "/" + terrenoEscolhido.getEstado() + "\n" + "Situa��o Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
 
         Button infracaoButton = (Button) findViewById(R.id.btn_goDetalheInfracao);
 
         if (terrenoEscolhido.getSituacao_cadastral().trim().equals("regular")) {
             tv_infosTerreno.setTextColor(getResources().getColor(R.color.green));
-            Log.v("Debug terrenoRegular", "terrenoEscolhido:ID: " + terrenoEscolhido.getTerreno_id() + " Situação Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
+            Log.v("Debug terrenoRegular", "terrenoEscolhido:ID: " + terrenoEscolhido.getTerreno_id() + " Situa��o Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
             infracaoButton.setText("Detalhes");
         } else {
             tv_infosTerreno.setTextColor(getResources().getColor(R.color.red));
-            Log.v("Debug terrenoRegular", "terrenoEscolhido:ID: " + terrenoEscolhido.getTerreno_id() + " Situação Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
+            Log.v("Debug terrenoRegular", "terrenoEscolhido:ID: " + terrenoEscolhido.getTerreno_id() + " Situa��o Cadastral: " + terrenoEscolhido.getSituacao_cadastral());
             infracaoButton.setText("Detalhes");
         }
 

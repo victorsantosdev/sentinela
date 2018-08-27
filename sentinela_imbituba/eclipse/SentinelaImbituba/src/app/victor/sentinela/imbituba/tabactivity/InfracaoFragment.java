@@ -40,7 +40,7 @@ public class InfracaoFragment extends Fragment {
         String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.ultimoLogin, "");
         if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
-            sessionInfo.setText("Usuário Logado: " + usuarioLogado + "\nÚltimo login: " + usuarioUltimoLogin);
+            sessionInfo.setText("Usuario Logado: " + usuarioLogado + "\nUltimo login: " + usuarioUltimoLogin);
         }
     }
     
@@ -49,7 +49,7 @@ public class InfracaoFragment extends Fragment {
         Editor editor = sharedPreferences.edit();
         String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         if (!usuarioLogadoCheck.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Logout do usuário "+ usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Logout do usuario "+ usuarioLogadoCheck, Toast.LENGTH_LONG).show();
         editor.clear();
         editor.commit();      
         }

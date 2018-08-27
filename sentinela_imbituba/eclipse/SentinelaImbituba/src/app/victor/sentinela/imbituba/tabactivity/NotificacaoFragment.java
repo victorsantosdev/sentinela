@@ -130,7 +130,7 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
         String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.ultimoLogin, "");
         if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
-            sessionInfo.setText("Usuário Logado: " + usuarioLogado + "\nÚltimo login: " + usuarioUltimoLogin);
+            sessionInfo.setText("Usuaio Logado: " + usuarioLogado + "\nUltimo login: " + usuarioUltimoLogin);
         }
     }
 
@@ -140,7 +140,7 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
         Editor editor = sharedPreferences.edit();
         String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         if (!usuarioLogadoCheck.equals("")) {
-            Toast.makeText(getActivity().getApplicationContext(), "Logout do usuário " + usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Logout do usuario " + usuarioLogadoCheck, Toast.LENGTH_LONG).show();
             editor.clear();
             editor.commit();
         }
@@ -199,7 +199,7 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
                 // picture.compress(Bitmap.CompressFormat.JPEG, 90, out);
                 // out.flush();
                 // out.close();
-                Toast.makeText(this.getActivity(), "Procedimento de fotografia concluído com sucesso.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Procedimento de fotografia conclusao com sucesso.", Toast.LENGTH_SHORT).show();
 
                 // Log.d("DEBUG", "fotoPath " +
                 // infracao.get_fotoPath());
@@ -211,14 +211,14 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // User cancelled the image capture
-                Toast.makeText(this.getActivity(), "Interfaceamento com a câmera cancelado.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Interfaceamento com a camera cancelado.", Toast.LENGTH_SHORT).show();
                 // Intent goDetalhesTerreno = new Intent(this.getActivity(),
                 // DetalhesTerrenoActivity.class);
                 // startActivity(goDetalhesTerreno);
 
             } else {
                 // Image capture failed, advise user
-                Toast.makeText(this.getActivity(), "Ocorreu um erro na interface com a câmera do dispositivo.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Ocorreu um erro na interface com a camera do dispositivo.", Toast.LENGTH_SHORT).show();
                 // Intent goDetalhesTerreno = new Intent(this.getActivity(),
                 // DetalhesTerrenoActivity.class);
                 // startActivity(goDetalhesTerreno);

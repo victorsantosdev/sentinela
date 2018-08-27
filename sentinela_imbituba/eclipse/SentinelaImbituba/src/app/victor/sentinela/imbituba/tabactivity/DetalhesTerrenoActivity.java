@@ -23,7 +23,7 @@ ActionBar.TabListener {
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     // Tab titles
-    private String[] tabs = { "Detalhes", "Notificação", "Multa" };
+    private String[] tabs = { "Detalhes", "Notificacao", "Multa" };
     private static int terrenoSelecionadoID = 0;
     private static String cidadeSelecionada;
     @SuppressWarnings("deprecation")
@@ -110,7 +110,7 @@ ActionBar.TabListener {
         Editor editor = sharedPreferences.edit();
         String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         if (!usuarioLogadoCheck.equals("")) {
-            Toast.makeText(getApplicationContext(), "Logout do usuário "+ usuarioLogadoCheck, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Logout do usuario "+ usuarioLogadoCheck, Toast.LENGTH_LONG).show();
             editor.clear();
             editor.commit();      
         }

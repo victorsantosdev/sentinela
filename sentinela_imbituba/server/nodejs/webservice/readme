@@ -1,1 +1,0 @@
-Os arquivos terminados em  _fake servem para testar o webservice com o arquivo JSON sem a necessidade de estruturar o banco de dados PostgreSQL.

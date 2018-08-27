@@ -95,7 +95,7 @@ public class DetalhesTerrenoFragment extends Fragment {
         String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.usuarioLogado, "");
         String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.imbituba.login.LoginActivity.ultimoLogin, "");
         if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
-            sessionInfo.setText("Usuário Logado: " + usuarioLogado + "\nÚltimo login: " + usuarioUltimoLogin);
+            sessionInfo.setText("Usuario Logado: " + usuarioLogado + "\nUltimo login: " + usuarioUltimoLogin);
         }
     }
 //    

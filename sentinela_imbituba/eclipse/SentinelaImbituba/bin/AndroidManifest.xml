@@ -48,9 +48,14 @@
         <activity android:name="app.victor.sentinela.imbituba.mapstuff.MapsActivity" >
         </activity>
         <!-- Goolge API Key -->
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBYl8Tw0CjrjF1nTvzj6Nx7sEi67pimRQE" />
+<!--         <meta-data -->
+<!--             android:name="com.google.android.maps.v2.API_KEY" -->
+<!--             android:value="AIzaSyCWuRX2e5wd7kZnTOhlevxeJxj2u4p4_dI" /> -->
+
+                <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDSNF4mfJbQd6nv7bhVodYBml-eOtT8X7U" />
+        
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

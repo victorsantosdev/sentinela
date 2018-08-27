@@ -39,10 +39,12 @@ public class TerrenoImages {
             tImg.foto_nome = null;
             try{
                 
-                URL url = new URL("http://192.168.25.229:30000/timg?path=/"+strUrl);
+                //URL url = new URL("http://192.168.137.1:30000/timg?path=/"+strUrl);
+                
+                URL url = new URL("http://10.0.2.2:30000/timg?path=/"+strUrl); //localhost with the emulator
                 Log.v("URL imagens", "url_imagens: "+url);
 
-                String img_name = strUrl.replaceAll("app_imagensterrenos/", "");
+                String img_name = strUrl.replaceAll("imagens/", ""); //this is the name of the images path in folder
                 tImg.foto_nome = img_name;
                 Log.v("Nome da imagem a ser salva", "nome da imagem a ser salva: "+img_name);
 

@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
         int estagioVerificacao = 0;
 
         if (etUsername.getText().toString().trim().equals("") && estagioVerificacao == 0) {
-            errosParse += "Nome do usu√°rio vazio.\n";
+            errosParse += "Nome do usu·rio vazio.\n";
             Toast.makeText(getApplicationContext(), errosParse, Toast.LENGTH_SHORT).show();
             estagioVerificacao = 1;
         }
@@ -130,7 +130,7 @@ public class LoginActivity extends Activity {
                 editor.putString(ultimoLogin, currentDateandTime);
                 editor.commit();
 
-                Toast.makeText(getApplicationContext(), "Bem-vindo usu√°rio: " + etUsername.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Bem-vindo usu·rio: " + etUsername.getText().toString().trim(), Toast.LENGTH_SHORT).show();
 
                 Intent mainActivity = new Intent(this, MainActivity.class);
                 startActivity(mainActivity);

@@ -1,0 +1,189 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homeTable"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:shrinkColumns="*"
+    android:stretchColumns="*" >
+
+    <!-- area de registro do usuario -->
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#dcdcdc"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/username_sessionData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.85"
+            android:padding="30dip"
+            android:text="Username_session"
+            android:textColor="#000"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/img_logout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.15"
+            android:onClick="logout"
+            android:src="@drawable/ic_action_export" />
+    </TableRow>
+
+    <!-- titulo do aplicativo -->
+
+    <TableRow
+        android:id="@+id/tableRow_appTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/TextView_appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="DBA Origem - Destino"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableRow>
+
+    <!-- Program Logos -->
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow_appHello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/TextView_appHello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Cadastre as perguntas antes de responder o questionário"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableRow>
+
+    <!-- botão cadastrar e fotinho -->
+
+    <TableRow
+        android:id="@+id/linhaCadastro"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/btn_cadastroPerguntas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.85"
+            android:onClick="btn_registarPerguntas"
+            android:text="Cadastrar Perguntas" />
+
+        <ImageView
+            android:id="@+id/foto_cadastroPerguntas"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:src="@drawable/ic_action_database" />
+    </TableRow>
+
+        <!-- botão editar e fotinho -->
+
+    <TableRow
+        android:id="@+id/linhaEditar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/btn_editarPerguntas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.85"
+            android:onClick="btn_editarPerguntas"
+            android:text="Editar perguntas" />
+
+        <ImageView
+            android:id="@+id/foto_editarPerguntas"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:src="@drawable/ic_action_edit" />
+    </TableRow>
+    
+    
+    <!-- botão responder questionario e fotinho -->
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/btn_responderQuestionario"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.85"
+            android:onClick="btn_responderQuestionario"
+            android:text="Responder Questionário" />
+
+        <ImageView
+            android:id="@+id/foto_responderQuestionario"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:src="@drawable/ic_action_paste" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <!-- info do autor -->
+
+        <ImageView
+            android:id="@+id/imgInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:onClick="infoAutor"
+            android:src="@drawable/ic_action_info" />
+    </TableRow>
+
+</TableLayout>
