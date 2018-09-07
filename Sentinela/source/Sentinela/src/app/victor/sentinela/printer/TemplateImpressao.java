@@ -260,7 +260,6 @@ public class TemplateImpressao implements Parcelable {
     }
 
 
-
     public static final Creator<TemplateImpressao> CREATOR = new Creator<TemplateImpressao>() {
         @Override
         public TemplateImpressao[] newArray(int size) {
