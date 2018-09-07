@@ -33,26 +33,13 @@ public class Infracao {
     public void setCodigoLeiID(int codigoLeiID) {
         CodigoLeiID = codigoLeiID;
     }
-    public String getInfracaoFotoPath() {
-        return InfracaoFotoPath;
-    }
-    public void setInfracaoFotoPath(String fotoPath) {
-        InfracaoFotoPath = fotoPath;
-    }
-    public String getInfracaoData() {
-        return InfracaoData;
-    }
-    public void setInfracaoData(String infracaoData) {
-        InfracaoData = infracaoData;
-    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + AgenteID;
         result = prime * result + CodigoLeiID;
-        result = prime * result + ((InfracaoFotoPath == null) ? 0 : InfracaoFotoPath.hashCode());
-        result = prime * result + ((InfracaoData == null) ? 0 : InfracaoData.hashCode());
         result = prime * result + InfracaoID;
         result = prime * result + TerrenoID;
         return result;
@@ -70,16 +57,6 @@ public class Infracao {
             return false;
         if (CodigoLeiID != other.CodigoLeiID)
             return false;
-        if (InfracaoFotoPath == null) {
-            if (other.InfracaoFotoPath != null)
-                return false;
-        } else if (!InfracaoFotoPath.equals(other.InfracaoFotoPath))
-            return false;
-        if (InfracaoData == null) {
-            if (other.InfracaoData != null)
-                return false;
-        } else if (!InfracaoData.equals(other.InfracaoData))
-            return false;
         if (InfracaoID != other.InfracaoID)
             return false;
         if (TerrenoID != other.TerrenoID)
@@ -89,8 +66,7 @@ public class Infracao {
     
     @Override
     public String toString() {
-        return "Infracao [InfracaoID=" + InfracaoID + ", AgenteID=" + AgenteID + ", TerrenoID=" + TerrenoID + ", CodigoLeiID=" + CodigoLeiID + ", InfracaoFotoPath=" + InfracaoFotoPath
-                + ", InfracaoData=" + InfracaoData + "]";
+        return "Infracao [InfracaoID=" + InfracaoID + ", AgenteID=" + AgenteID + ", TerrenoID=" + TerrenoID + ", CodigoLeiID=" + CodigoLeiID + "]";
     }
 
 }

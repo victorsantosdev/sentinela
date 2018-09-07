@@ -58,4 +58,12 @@
     <string name="holder">Holder</string>
     <string name="exp_date">Exp date</string>
     <string name="no_card_read">No card information read</string>
+    
+   <string name="notificacao_infracao_prompt">Escolha o tipo</string> 
+      <string name="notificacao_codigolei_prompt">Categoria da infração</string> 
+   
+   <string-array name="notificacao_infracao_array">
+        <item>Notificacao</item>
+        <item>Infracao</item>
+    </string-array> 
 </resources>

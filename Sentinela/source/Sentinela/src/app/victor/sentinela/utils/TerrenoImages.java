@@ -39,8 +39,13 @@ public class TerrenoImages {
             tImg.foto_nome = null;
             try{
                 
+            	//rede victor casa
+                //URL url = new URL("http://192.168.25.81:30000/timg?path=/"+strUrl);
                 //rede bia
-                URL url = new URL("http://192.168.137.1:30000/timg?path=/"+strUrl);
+                //URL url = new URL("http://192.168.137.1:30000/timg?path=/"+strUrl);
+                
+                //rede lmpt
+                URL url = new URL("http://10.42.0.96:30000/timg?path=/"+strUrl);
                 
                 //URL url = new URL("http://10.0.2.2:30000/timg?path=/"+strUrl); //localhost with the emulator
                

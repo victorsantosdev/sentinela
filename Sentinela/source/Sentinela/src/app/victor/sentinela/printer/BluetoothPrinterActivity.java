@@ -11,6 +11,9 @@ import com.datecs.api.printer.PrinterInformation;
 import com.datecs.api.printer.ProtocolAdapter;
 
 import app.victor.sentinela.R;
+import app.victor.sentinela.bancodados.TerrenoORM;
+import app.victor.sentinela.bdclasses.CodigoLei;
+import app.victor.sentinela.bdclasses.Terreno;
 import app.victor.sentinela.printer.BluetoothDeviceActivity;
 
 import android.app.Activity;
@@ -24,6 +27,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,20 +49,20 @@ public class BluetoothPrinterActivity extends Activity {
         @Override
         public void onReadEncryptedCard() {
             //toast(getString(R.string.msg_read_encrypted_card));
-            toast("tentativa de ler cartão criptografado");
+            toast("tentativa de ler cartao criptografado");
         }
 
         @Override
         public void onReadCard() {
             //readMagstripe();
-            toast("tentativa de ler cartão magnético");
+            toast("tentativa de ler cartao magnetico");
 
         }
 
         @Override
         public void onReadBarcode() {
             //readBarcode(0);
-            toast("tentativa de ler código de barras");
+            toast("tentativa de ler codigo de barras");
         }
 
         @Override
@@ -93,7 +99,8 @@ public class BluetoothPrinterActivity extends Activity {
     private PrinterInformation mPrinterInfo;
     private BluetoothSocket mBluetoothSocket;
     private boolean mRestart;
-
+    private static TemplateImpressao notificacaoToBePrinted;
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,13 +108,50 @@ public class BluetoothPrinterActivity extends Activity {
         setContentView(R.layout.printerview_layout);
         setTitle(getString(R.string.app_name) + " SDK " + BuildInfo.VERSION);
 
-//        findViewById(R.id.print_self_test).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                printSelfTest();
-//            }
-//        });
-//
+//        Button buttonImprimir = (Button) this.findViewById(R.id.btn_imprimir_notificacao);
+//        buttonImprimir.setOnClickListener((OnClickListener) this);
+        
+        //Getting TemplateImpressao instance (notification to be printed 
+        Intent mIntent = getIntent();
+        TemplateImpressao dadosImpressao = (TemplateImpressao) mIntent.getParcelableExtra("dataToBePrinted");
+        notificacaoToBePrinted = dadosImpressao;
+        
+        TextView tipoAutuacao = (TextView) this.findViewById(R.id.tipoAutuacao); 
+        tipoAutuacao.setText(dadosImpressao.getTipoInfracao());
+        
+        TextView agente = (TextView) this.findViewById(R.id.agente); 
+        agente.setText(dadosImpressao.getAgente());
+        
+        TextView dataHora = (TextView) this.findViewById(R.id.dataHora); 
+        dataHora.setText(dadosImpressao.getDateTime());
+        
+        
+        TextView proprietarioTerreno = (TextView) this.findViewById(R.id.terrenoProprietario); 
+        proprietarioTerreno.setText(dadosImpressao.getTerrenoProprietario());
+        
+        TextView enderecoTerreno = (TextView) this.findViewById(R.id.terrenoEndereco); 
+        enderecoTerreno.setText(dadosImpressao.getTerrenoEndereco()+", "+dadosImpressao.getTerrenoNumeroString());
+        
+        TextView bairroTerreno = (TextView) this.findViewById(R.id.terrenoBairro); 
+        bairroTerreno.setText(dadosImpressao.getTerrenoBairro());
+        
+        TextView cidadeTerreno = (TextView) this.findViewById(R.id.terrenoCidade); 
+        cidadeTerreno.setText(dadosImpressao.getTerrenoCidade()+"/"+dadosImpressao.getTerrenoEstado());
+        
+        TextView codigoLei = (TextView) this.findViewById(R.id.codigoLei); 
+        codigoLei.setText(dadosImpressao.getCodigoLei());
+        
+        TextView codigoLeiDescricao = (TextView) this.findViewById(R.id.codigoleiDescricao); 
+        codigoLeiDescricao.setText(dadosImpressao.getCodigoLeiDescricao());
+
+        
+        findViewById(R.id.btn_imprimir_notificacao).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	printNotificacao(notificacaoToBePrinted.formatPrintData());
+            }
+        });
+////
 //        findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -155,6 +199,26 @@ public class BluetoothPrinterActivity extends Activity {
         waitForConnection();
     }
 
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+////            case R.id.imageViewFotoInfracao:
+////                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                startActivityForResult(intent, REQUEST_PICTURE);
+////                break;
+//            case R.id.btn_voltar:
+//                Intent backToMaps = new Intent(this, app.victor.sentinela.mapstuff.MapsActivity.class);
+//                // moveTaskToBack(true);
+//                startActivity(backToMaps);
+//                break;
+//            case R.id.btn_imprimir_notificacao:
+//            	printNotificacao(notificacaoToBePrinted.formatPrintData());
+//                break;
+//                
+//            default: break;
+//        }
+//    }
+    
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -171,7 +235,7 @@ public class BluetoothPrinterActivity extends Activity {
                 if (BluetoothAdapter.checkBluetoothAddress(address)) {
                     establishBluetoothConnection(address);
                 } else {
-                    toast("deu zica na conexão bluetooth");
+                    toast("problema com a conexao bluetooth");
                     //establishNetworkConnection(address);
                 }
             } else if (resultCode == RESULT_CANCELED) {
@@ -193,20 +257,20 @@ public class BluetoothPrinterActivity extends Activity {
         });
     }
 
-    private void dialog(final int iconResId, final String title, final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(BluetoothPrinterActivity.this);
-                builder.setIcon(iconResId);
-                builder.setTitle(title);
-                builder.setMessage(msg);
-
-                AlertDialog dlg = builder.create();
-                dlg.show();
-            }
-        });
-    }
+//    private void dialog(final int iconResId, final String title, final String msg) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(BluetoothPrinterActivity.this);
+//                builder.setIcon(iconResId);
+//                builder.setTitle(title);
+//                builder.setMessage(msg);
+//
+//                AlertDialog dlg = builder.create();
+//                dlg.show();
+//            }
+//        });
+//    }
 
     private void error(final String text, boolean resetConnection) {
         if (resetConnection) {
@@ -368,47 +432,16 @@ public class BluetoothPrinterActivity extends Activity {
         closeBlutoothConnection();
     }
 
-    private void printSelfTest() {
+    private void printNotificacao(final StringBuffer notificacao_sb) {
         doJob(new Runnable() {
             @Override
             public void run() {
-                try {
-                    if (DEBUG)
-                        Log.d(LOG_TAG, "Print Self Test");
-                    mPrinter.printSelfTest();
-                    mPrinter.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    error(getString(R.string.msg_failed_to_print_self_test) + ". " + e.getMessage(), mRestart);
-                }
-            }
-        }, R.string.msg_printing_self_test);
-    }
-
-    private void printText() {
-        doJob(new Runnable() {
-            @Override
-            public void run() {
-                StringBuffer sb = new StringBuffer();
-                sb.append("{reset}{center}{w}{h}RECEIPT");
-                sb.append("{br}");
-                sb.append("{br}");
-                sb.append("{reset}1. {b}First item{br}");
-                sb.append("{reset}{right}{h}$0.50 A{br}");
-                sb.append("{reset}2. {u}Second item{br}");
-                sb.append("{reset}{right}{h}$1.00 B{br}");
-                sb.append("{reset}3. {i}Third item{br}");
-                sb.append("{reset}{right}{h}$1.50 C{br}");
-                sb.append("{br}");
-                sb.append("{reset}{right}{w}{h}TOTAL: {/w}$3.00  {br}");
-                sb.append("{br}");
-                sb.append("{reset}{center}{s}Thank You!{br}");
 
                 try {
                     if (DEBUG)
                         Log.d(LOG_TAG, "Print Text");
                     mPrinter.reset();
-                    mPrinter.printTaggedText(sb.toString());
+                    mPrinter.printTaggedText(notificacao_sb.toString());
                     mPrinter.feedPaper(110);
                     mPrinter.flush();
                 } catch (IOException e) {
@@ -417,92 +450,149 @@ public class BluetoothPrinterActivity extends Activity {
                 }
             }
         }, R.string.msg_printing_text);
+    
+//    private void printSelfTest() {
+//        doJob(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    if (DEBUG)
+//                        Log.d(LOG_TAG, "Print Self Test");
+//                    mPrinter.printSelfTest();
+//                    mPrinter.flush();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    error(getString(R.string.msg_failed_to_print_self_test) + ". " + e.getMessage(), mRestart);
+//                }
+//            }
+//        }, R.string.msg_printing_self_test);
+//    }
+
+//    private void printText() {
+//        doJob(new Runnable() {
+//            @Override
+//            public void run() {
+//                StringBuffer sb = new StringBuffer();
+//                sb.append("{reset}{center}{w}{h}RECEIPT");
+//                sb.append("{br}");
+//                sb.append("{br}");
+//                sb.append("{reset}1. {b}First item{br}");
+//                sb.append("{reset}{right}{h}$0.50 A{br}");
+//                sb.append("{reset}2. {u}Second item{br}");
+//                sb.append("{reset}{right}{h}$1.00 B{br}");
+//                sb.append("{reset}3. {i}Third item{br}");
+//                sb.append("{reset}{right}{h}$1.50 C{br}");
+//                sb.append("{br}");
+//                sb.append("{reset}{right}{w}{h}TOTAL: {/w}$3.00  {br}");
+//                sb.append("{br}");
+//                sb.append("{reset}{center}{s}Thank You!{br}");
+//
+//                try {
+//                    if (DEBUG)
+//                        Log.d(LOG_TAG, "Print Text");
+//                    mPrinter.reset();
+//                    mPrinter.printTaggedText(sb.toString());
+//                    mPrinter.feedPaper(110);
+//                    mPrinter.flush();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    error(getString(R.string.msg_failed_to_print_text) + ". " + e.getMessage(), mRestart);
+//                }
+//            }
+//        }, R.string.msg_printing_text);
     }
 
-    private void printImage() {
-        doJob(new Runnable() {
-            @Override
-            public void run() {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inScaled = false;
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample);
-                final int width = bitmap.getWidth();
-                final int height = bitmap.getHeight();
-                final int[] argb = new int[width * height];
-                bitmap.getPixels(argb, 0, width, 0, 0, width, height);
-                bitmap.recycle();
-
-                try {
-                    if (DEBUG)
-                        Log.d(LOG_TAG, "Print Image");
-                    mPrinter.reset();
-                    mPrinter.printImage(argb, width, height, Printer.ALIGN_CENTER, true);
-                    mPrinter.feedPaper(110);
-                    mPrinter.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    error(getString(R.string.msg_failed_to_print_image) + ". " + e.getMessage(), mRestart);
-                }
-            }
-        }, R.string.msg_printing_image);
-    }
-
-    private void printPage() {
-        doJob(new Runnable() {
-            @Override
-            public void run() {
-                if (mPrinterInfo == null || !mPrinterInfo.isPageModeSupported()) {
-                    dialog(R.drawable.page, getString(R.string.title_warning), getString(R.string.msg_unsupport_page_mode));
-                    return;
-                }
-
-                try {
-                    if (DEBUG)
-                        Log.d(LOG_TAG, "Print Page");
-                    mPrinter.reset();
-                    mPrinter.selectPageMode();
-
-                    mPrinter.setPageRegion(0, 0, 160, 320, Printer.PAGE_LEFT);
-                    mPrinter.setPageXY(0, 4);
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH I{br}");
-                    mPrinter.drawPageRectangle(0, 0, 160, 32, Printer.FILL_INVERTED);
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from left to right" + ", feed to bottom. Starting point in left top corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-
-                    mPrinter.setPageRegion(160, 0, 160, 320, Printer.PAGE_TOP);
-                    mPrinter.setPageXY(0, 4);
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH II{br}");
-                    mPrinter.drawPageRectangle(160 - 32, 0, 32, 320, Printer.FILL_INVERTED);
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from top to bottom" + ", feed to left. Starting point in right top corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-
-                    mPrinter.setPageRegion(160, 320, 160, 320, Printer.PAGE_RIGHT);
-                    mPrinter.setPageXY(0, 4);
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH III{br}");
-                    mPrinter.drawPageRectangle(0, 320 - 32, 160, 32, Printer.FILL_INVERTED);
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from right to left" + ", feed to top. Starting point in right bottom corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-
-                    mPrinter.setPageRegion(0, 320, 160, 320, Printer.PAGE_BOTTOM);
-                    mPrinter.setPageXY(0, 4);
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH IV{br}");
-                    mPrinter.drawPageRectangle(0, 0, 32, 320, Printer.FILL_INVERTED);
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from bottom to top" + ", feed to right. Starting point in left bottom corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-
-                    mPrinter.printPage();
-                    mPrinter.selectStandardMode();
-                    mPrinter.feedPaper(110);
-                    mPrinter.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    error(getString(R.string.msg_failed_to_print_page) + ". " + e.getMessage(), mRestart);
-                }
-            }
-        }, R.string.msg_printing_page);
-    }
+//    private void printImage() {
+//        doJob(new Runnable() {
+//            @Override
+//            public void run() {
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inScaled = false;
+//                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample);
+//                final int width = bitmap.getWidth();
+//                final int height = bitmap.getHeight();
+//                final int[] argb = new int[width * height];
+//                bitmap.getPixels(argb, 0, width, 0, 0, width, height);
+//                bitmap.recycle();
+//
+//                try {
+//                    if (DEBUG)
+//                        Log.d(LOG_TAG, "Print Image");
+//                    mPrinter.reset();
+//                    mPrinter.printImage(argb, width, height, Printer.ALIGN_CENTER, true);
+//                    mPrinter.feedPaper(110);
+//                    mPrinter.flush();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    error(getString(R.string.msg_failed_to_print_image) + ". " + e.getMessage(), mRestart);
+//                }
+//            }
+//        }, R.string.msg_printing_image);
+//    }
+//
+//    private void printPage() {
+//        doJob(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mPrinterInfo == null || !mPrinterInfo.isPageModeSupported()) {
+//                    dialog(R.drawable.page, getString(R.string.title_warning), getString(R.string.msg_unsupport_page_mode));
+//                    return;
+//                }
+//
+//                try {
+//                    if (DEBUG)
+//                        Log.d(LOG_TAG, "Print Page");
+//                    mPrinter.reset();
+//                    mPrinter.selectPageMode();
+//
+//                    mPrinter.setPageRegion(0, 0, 160, 320, Printer.PAGE_LEFT);
+//                    mPrinter.setPageXY(0, 4);
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH I{br}");
+//                    mPrinter.drawPageRectangle(0, 0, 160, 32, Printer.FILL_INVERTED);
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from left to right" + ", feed to bottom. Starting point in left top corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//
+//                    mPrinter.setPageRegion(160, 0, 160, 320, Printer.PAGE_TOP);
+//                    mPrinter.setPageXY(0, 4);
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH II{br}");
+//                    mPrinter.drawPageRectangle(160 - 32, 0, 32, 320, Printer.FILL_INVERTED);
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from top to bottom" + ", feed to left. Starting point in right top corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//
+//                    mPrinter.setPageRegion(160, 320, 160, 320, Printer.PAGE_RIGHT);
+//                    mPrinter.setPageXY(0, 4);
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH III{br}");
+//                    mPrinter.drawPageRectangle(0, 320 - 32, 160, 32, Printer.FILL_INVERTED);
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from right to left" + ", feed to top. Starting point in right bottom corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//
+//                    mPrinter.setPageRegion(0, 320, 160, 320, Printer.PAGE_BOTTOM);
+//                    mPrinter.setPageXY(0, 4);
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH IV{br}");
+//                    mPrinter.drawPageRectangle(0, 0, 32, 320, Printer.FILL_INVERTED);
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from bottom to top" + ", feed to right. Starting point in left bottom corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//
+//                    mPrinter.printPage();
+//                    mPrinter.selectStandardMode();
+//                    mPrinter.feedPaper(110);
+//                    mPrinter.flush();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    error(getString(R.string.msg_failed_to_print_page) + ". " + e.getMessage(), mRestart);
+//                }
+//            }
+//        }, R.string.msg_printing_page);
+//    }
+    
+//    public void btn_voltar(View view) {
+//        Intent backToMaps = new Intent(this, app.victor.sentinela.mapstuff.MapsActivity.class);
+//        //moveTaskToBack(true);
+//        //backToMaps.putExtra("cidadeSelecionada", cidadeSelecionada);
+//        startActivity(backToMaps);
+//    }
 }

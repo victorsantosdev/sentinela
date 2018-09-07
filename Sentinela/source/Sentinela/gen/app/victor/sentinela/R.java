@@ -8,6 +8,9 @@
 package app.victor.sentinela;
 
 public final class R {
+    public static final class array {
+        public static final int notificacao_infracao_array=0x7f080000;
+    }
     public static final class attr {
         /** 
     The size of the ad. It must be one of BANNER, FULL_BANNER, LEADERBOARD,
@@ -493,109 +496,113 @@ containing a value of this type.
         public static final int tirarfoto_resized=0x7f020127;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f0a005b;
-        public static final int TextView_appHello=0x7f0a0015;
-        public static final int TextView_appTitle=0x7f0a0012;
-        public static final int TextView_login=0x7f0a0052;
-        public static final int TextView_senha=0x7f0a0055;
-        public static final int action_settings=0x7f0a0066;
-        public static final int address=0x7f0a000d;
-        public static final int aplicarRaio=0x7f0a0060;
-        public static final int btn_cadastroPerguntas=0x7f0a0017;
-        public static final int btn_editarPerguntas=0x7f0a001a;
-        public static final int btn_goDetalheInfracao=0x7f0a0062;
-        public static final int btn_imprimir=0x7f0a0049;
-        public static final int btn_login=0x7f0a0057;
-        public static final int btn_prosseguir=0x7f0a003f;
-        public static final int btn_responderQuestionario=0x7f0a001c;
-        public static final int btn_sincbanco=0x7f0a004d;
-        public static final int btn_startsession=0x7f0a004b;
-        public static final int btn_voltar=0x7f0a0038;
-        public static final int button1=0x7f0a0064;
-        public static final int button2=0x7f0a0065;
-        public static final int cidades_spinner=0x7f0a0058;
-        public static final int connect=0x7f0a0006;
-        public static final int dadosTerrenoTable=0x7f0a005d;
-        public static final int detalhesTerrenoTable_bottom=0x7f0a0037;
-        public static final int detalhesTerrenoTable_content=0x7f0a0024;
-        public static final int detalhesTerrenoTable_top=0x7f0a0022;
-        public static final int device_address=0x7f0a0005;
-        public static final int devices_list=0x7f0a0008;
-        public static final int etRaioBusca=0x7f0a005f;
-        public static final int et_senha=0x7f0a0056;
-        public static final int et_username=0x7f0a0053;
-        public static final int foto_cadastrarNovo=0x7f0a005a;
-        public static final int foto_cadastroPerguntas=0x7f0a0018;
-        public static final int foto_editarPerguntas=0x7f0a001b;
-        public static final int foto_responderQuestionario=0x7f0a001d;
-        public static final int homeTable=0x7f0a000e;
-        public static final int hybrid=0x7f0a0000;
-        public static final int icon=0x7f0a000b;
-        public static final int imageView1=0x7f0a0063;
-        public static final int imageViewFotoInfracao=0x7f0a0045;
-        public static final int imageViewTerrenoFoto=0x7f0a0026;
-        public static final int imagem=0x7f0a0020;
-        public static final int imageview_teste=0x7f0a004e;
-        public static final int imgInfo=0x7f0a001e;
-        public static final int img_logout=0x7f0a0010;
-        public static final int linhaCadastro=0x7f0a0016;
-        public static final int linhaEditar=0x7f0a0019;
-        public static final int linhasincbanco=0x7f0a004c;
-        public static final int linhastartsession=0x7f0a004a;
-        public static final int ll_masterDetalhesTerreno=0x7f0a0021;
-        public static final int ll_notificacao=0x7f0a0040;
-        public static final int ll_skel=0x7f0a0039;
-        public static final int mapsfragment=0x7f0a005c;
-        public static final int marker_infosTerreno=0x7f0a0050;
-        public static final int name=0x7f0a000c;
-        public static final int none=0x7f0a0001;
-        public static final int normal=0x7f0a0002;
-        public static final int notificacaoFotoTexto=0x7f0a0044;
-        public static final int notificacaoTable_content=0x7f0a0043;
-        public static final int notificacao_bottom=0x7f0a0048;
-        public static final int notificacao_top=0x7f0a0041;
-        public static final int pager=0x7f0a001f;
-        public static final int satellite=0x7f0a0003;
-        public static final int scan=0x7f0a000a;
-        public static final int scanLayout=0x7f0a0009;
-        public static final int scrollView_detalhesTerreno=0x7f0a0023;
-        public static final int scrollView_notificacao=0x7f0a0042;
-        public static final int scrollView_skel=0x7f0a003b;
-        public static final int skel_bottom=0x7f0a003e;
-        public static final int skel_content=0x7f0a003c;
-        public static final int skel_top=0x7f0a003a;
-        public static final int station_info_layout=0x7f0a004f;
-        public static final int tabela_questionario2=0x7f0a0059;
-        public static final int tableLogin_login=0x7f0a0051;
-        public static final int tableLogin_senha=0x7f0a0054;
-        public static final int tableRow2=0x7f0a0013;
-        public static final int tableRow_appHello=0x7f0a0014;
-        public static final int tableRow_appTitle=0x7f0a0011;
-        public static final int terrain=0x7f0a0004;
-        public static final int terrenoArea=0x7f0a0032;
-        public static final int terrenoAreaTexto=0x7f0a0031;
-        public static final int terrenoBairro=0x7f0a002c;
-        public static final int terrenoBairroTexto=0x7f0a002b;
-        public static final int terrenoCidade=0x7f0a002e;
-        public static final int terrenoCidadeTexto=0x7f0a0047;
-        public static final int terrenoCidadeUFTexto=0x7f0a002d;
-        public static final int terrenoConfiguracao=0x7f0a0034;
-        public static final int terrenoConfiguracaoTexto=0x7f0a0033;
-        public static final int terrenoEndereco=0x7f0a002a;
-        public static final int terrenoEnderecoNumeroTexto=0x7f0a0046;
-        public static final int terrenoEnderecoTexto=0x7f0a0029;
-        public static final int terrenoEscolhido=0x7f0a0061;
-        public static final int terrenoFotoTexto=0x7f0a0025;
-        public static final int terrenoProprietario=0x7f0a0028;
-        public static final int terrenoProprietarioTexto=0x7f0a0027;
-        public static final int terrenoSituacao=0x7f0a0036;
-        public static final int terrenoSituacaoTexto=0x7f0a0035;
-        public static final int terrenoTopografia=0x7f0a0030;
-        public static final int terrenoTopografiaTexto=0x7f0a002f;
-        public static final int text1=0x7f0a003d;
-        public static final int title_disabled=0x7f0a0007;
-        public static final int tvRaioBusca=0x7f0a005e;
-        public static final int username_sessionData=0x7f0a000f;
+        public static final int LinearLayout1=0x7f0b0057;
+        public static final int TextView_appHello=0x7f0b0015;
+        public static final int TextView_appTitle=0x7f0b0012;
+        public static final int TextView_login=0x7f0b004d;
+        public static final int TextView_senha=0x7f0b0050;
+        public static final int action_settings=0x7f0b006a;
+        public static final int address=0x7f0b000d;
+        public static final int agente=0x7f0b0062;
+        public static final int agenteTexto=0x7f0b0061;
+        public static final int aplicarRaio=0x7f0b005c;
+        public static final int btn_cadastroPerguntas=0x7f0b0017;
+        public static final int btn_editarPerguntas=0x7f0b001a;
+        public static final int btn_goDetalheInfracao=0x7f0b005e;
+        public static final int btn_imprimir=0x7f0b0044;
+        public static final int btn_imprimir_notificacao=0x7f0b0069;
+        public static final int btn_login=0x7f0b0052;
+        public static final int btn_prosseguir=0x7f0b0055;
+        public static final int btn_responderQuestionario=0x7f0b001c;
+        public static final int btn_sincbanco=0x7f0b0048;
+        public static final int btn_startsession=0x7f0b0046;
+        public static final int btn_voltar=0x7f0b0038;
+        public static final int cidades_spinner=0x7f0b0053;
+        public static final int codigoLei=0x7f0b0066;
+        public static final int codigoLeiTexto=0x7f0b0065;
+        public static final int codigoleiDescricao=0x7f0b0068;
+        public static final int codigoleiDescricaoTexto=0x7f0b0067;
+        public static final int connect=0x7f0b0006;
+        public static final int dadosTerrenoTable=0x7f0b0059;
+        public static final int dataHora=0x7f0b0064;
+        public static final int dataHoraTexto=0x7f0b0063;
+        public static final int detalhesTerrenoTable_bottom=0x7f0b0037;
+        public static final int detalhesTerrenoTable_content=0x7f0b0024;
+        public static final int detalhesTerrenoTable_top=0x7f0b0022;
+        public static final int device_address=0x7f0b0005;
+        public static final int devices_list=0x7f0b0008;
+        public static final int etRaioBusca=0x7f0b005b;
+        public static final int et_senha=0x7f0b0051;
+        public static final int et_username=0x7f0b004e;
+        public static final int foto_cadastrarNovo=0x7f0b0056;
+        public static final int foto_cadastroPerguntas=0x7f0b0018;
+        public static final int foto_editarPerguntas=0x7f0b001b;
+        public static final int foto_responderQuestionario=0x7f0b001d;
+        public static final int homeTable=0x7f0b000e;
+        public static final int hybrid=0x7f0b0000;
+        public static final int icon=0x7f0b000b;
+        public static final int imageViewTerrenoFoto=0x7f0b0026;
+        public static final int imagem=0x7f0b0020;
+        public static final int imageview_teste=0x7f0b0049;
+        public static final int imgInfo=0x7f0b001e;
+        public static final int img_logout=0x7f0b0010;
+        public static final int linhaCadastro=0x7f0b0016;
+        public static final int linhaEditar=0x7f0b0019;
+        public static final int linhasincbanco=0x7f0b0047;
+        public static final int linhastartsession=0x7f0b0045;
+        public static final int ll_masterDetalhesTerreno=0x7f0b0021;
+        public static final int ll_notificacao=0x7f0b0039;
+        public static final int mapsfragment=0x7f0b0058;
+        public static final int marker_infosTerreno=0x7f0b004b;
+        public static final int name=0x7f0b000c;
+        public static final int none=0x7f0b0001;
+        public static final int normal=0x7f0b0002;
+        public static final int notificacaoTable_content=0x7f0b003c;
+        public static final int notificacao_bottom=0x7f0b0043;
+        public static final int notificacao_cod_texto=0x7f0b003f;
+        public static final int notificacao_tipo_texto=0x7f0b003d;
+        public static final int notificacao_top=0x7f0b003a;
+        public static final int pager=0x7f0b001f;
+        public static final int satellite=0x7f0b0003;
+        public static final int scan=0x7f0b000a;
+        public static final int scanLayout=0x7f0b0009;
+        public static final int scrollView_detalhesTerreno=0x7f0b0023;
+        public static final int scrollView_notificacao=0x7f0b003b;
+        public static final int spinner_codigolei=0x7f0b0040;
+        public static final int spinner_tipo_autuacao=0x7f0b003e;
+        public static final int station_info_layout=0x7f0b004a;
+        public static final int tabela_questionario2=0x7f0b0054;
+        public static final int tableLogin_login=0x7f0b004c;
+        public static final int tableLogin_senha=0x7f0b004f;
+        public static final int tableRow2=0x7f0b0013;
+        public static final int tableRow_appHello=0x7f0b0014;
+        public static final int tableRow_appTitle=0x7f0b0011;
+        public static final int terrain=0x7f0b0004;
+        public static final int terrenoArea=0x7f0b0032;
+        public static final int terrenoAreaTexto=0x7f0b0031;
+        public static final int terrenoBairro=0x7f0b002c;
+        public static final int terrenoBairroTexto=0x7f0b002b;
+        public static final int terrenoCidade=0x7f0b002e;
+        public static final int terrenoCidadeTexto=0x7f0b0042;
+        public static final int terrenoCidadeUFTexto=0x7f0b002d;
+        public static final int terrenoConfiguracao=0x7f0b0034;
+        public static final int terrenoConfiguracaoTexto=0x7f0b0033;
+        public static final int terrenoEndereco=0x7f0b002a;
+        public static final int terrenoEnderecoNumeroTexto=0x7f0b0041;
+        public static final int terrenoEnderecoTexto=0x7f0b0029;
+        public static final int terrenoEscolhido=0x7f0b005d;
+        public static final int terrenoFotoTexto=0x7f0b0025;
+        public static final int terrenoProprietario=0x7f0b0028;
+        public static final int terrenoProprietarioTexto=0x7f0b0027;
+        public static final int terrenoSituacao=0x7f0b0036;
+        public static final int terrenoSituacaoTexto=0x7f0b0035;
+        public static final int terrenoTopografia=0x7f0b0030;
+        public static final int terrenoTopografiaTexto=0x7f0b002f;
+        public static final int tipoAutuacao=0x7f0b0060;
+        public static final int tipoAutuacaoTexto=0x7f0b005f;
+        public static final int title_disabled=0x7f0b0007;
+        public static final int tvRaioBusca=0x7f0b005a;
+        public static final int username_sessionData=0x7f0b000f;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f060000;
@@ -607,20 +614,17 @@ containing a value of this type.
         public static final int detalhesterreno_layout=0x7f030003;
         public static final int fotoactivity_layout=0x7f030004;
         public static final int fragment_detalhesterreno=0x7f030005;
-        public static final int fragment_multa=0x7f030006;
-        public static final int fragment_notificacao=0x7f030007;
-        public static final int homeactivity_layout=0x7f030008;
-        public static final int imagemactivity_layout=0x7f030009;
-        public static final int infowindow_layout=0x7f03000a;
-        public static final int infracaofotoactivity_layout=0x7f03000b;
-        public static final int infracaomultaactivity_layout=0x7f03000c;
-        public static final int loginactivity_layout=0x7f03000d;
-        public static final int mainactivity_layout=0x7f03000e;
-        public static final int mapsactivity_layout=0x7f03000f;
-        public static final int printerview_layout=0x7f030010;
+        public static final int fragment_notificacao=0x7f030006;
+        public static final int homeactivity_layout=0x7f030007;
+        public static final int imagemactivity_layout=0x7f030008;
+        public static final int infowindow_layout=0x7f030009;
+        public static final int loginactivity_layout=0x7f03000a;
+        public static final int mainactivity_layout=0x7f03000b;
+        public static final int mapsactivity_layout=0x7f03000c;
+        public static final int printerview_layout=0x7f03000d;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
     }
     public static final class string {
         public static final int action_settings=0x7f05001d;
@@ -756,6 +760,8 @@ containing a value of this type.
         public static final int msg_reading_magstripe=0x7f05003c;
         public static final int msg_unsupport_page_mode=0x7f05003f;
         public static final int no_card_read=0x7f05004e;
+        public static final int notificacao_codigolei_prompt=0x7f050050;
+        public static final int notificacao_infracao_prompt=0x7f05004f;
         public static final int title_address=0x7f05002d;
         public static final int title_bluetooth_disabled=0x7f050021;
         public static final int title_connect=0x7f05002e;
@@ -797,11 +803,11 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f090000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
+        public static final int AppTheme=0x7f090001;
     }
     public static final class styleable {
         /** Attributes that can be used with a AdsAttrs.

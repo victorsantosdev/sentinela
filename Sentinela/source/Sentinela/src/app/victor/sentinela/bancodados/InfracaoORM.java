@@ -29,13 +29,6 @@ public class InfracaoORM {
     
     private static final String COLUMN_CODIGOLEI_ID_TYPE = "INTEGER NOT NULL";
     private static final String COLUMN_CODIGOLEI_ID = "codigolei_id";
-
-    private static final String COLUMN_INFRACAO_FOTOPATH_TYPE = "TEXT";
-    private static final String COLUMN_INFRACAO_FOTOPATH = "infracao_fotopath";
-
-    private static final String COLUMN_INFRACAO_DATA_TYPE = "TEXT";
-    private static final String COLUMN_INFRACAO_DATA = "infracao_data";
-
     
     public static final String SQL_CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
@@ -43,8 +36,6 @@ public class InfracaoORM {
                     COLUMN_AGENTE_ID + " " + COLUMN_AGENTE_ID_TYPE + COMMA_SEP +
                     COLUMN_TERRENO_ID + " " + COLUMN_TERRENO_ID_TYPE + COMMA_SEP +
                     COLUMN_CODIGOLEI_ID  + " " + COLUMN_CODIGOLEI_ID_TYPE + COMMA_SEP +
-                    COLUMN_INFRACAO_FOTOPATH + " " + COLUMN_INFRACAO_FOTOPATH_TYPE + COMMA_SEP + 
-                    COLUMN_INFRACAO_DATA + " " + COLUMN_INFRACAO_DATA_TYPE + COMMA_SEP + 
                     "FOREIGN KEY("+COLUMN_AGENTE_ID+") REFERENCES usuario(usuario_id)"  + COMMA_SEP +
                     "FOREIGN KEY("+COLUMN_TERRENO_ID+") REFERENCES terreno(terreno_id)"  + COMMA_SEP +
                     "FOREIGN KEY("+COLUMN_CODIGOLEI_ID+") REFERENCES codigoslei(codigolei_id)"  +
@@ -74,8 +65,6 @@ public class InfracaoORM {
         values.put(InfracaoORM.COLUMN_AGENTE_ID, infracao.getAgenteID());
         values.put(InfracaoORM.COLUMN_TERRENO_ID, infracao.getTerrenoID());
         values.put(InfracaoORM.COLUMN_CODIGOLEI_ID, infracao.getCodigoLeiID());
-        values.put(InfracaoORM.COLUMN_INFRACAO_FOTOPATH, infracao.getInfracaoFotoPath());
-        values.put(InfracaoORM.COLUMN_INFRACAO_DATA, infracao.getInfracaoData());
         return values;
     }
 
@@ -114,8 +103,7 @@ public class InfracaoORM {
         infracao.setAgenteID(cursor.getInt(cursor.getColumnIndex(COLUMN_AGENTE_ID)));
         infracao.setTerrenoID(cursor.getInt(cursor.getColumnIndex(COLUMN_TERRENO_ID)));
         infracao.setCodigoLeiID(cursor.getInt(cursor.getColumnIndex(COLUMN_CODIGOLEI_ID)));
-        infracao.setInfracaoFotoPath(cursor.getString(cursor.getColumnIndex(COLUMN_INFRACAO_FOTOPATH)));
-        infracao.setInfracaoData(cursor.getString(cursor.getColumnIndex(COLUMN_INFRACAO_DATA)));
+
 
         return infracao;
     }

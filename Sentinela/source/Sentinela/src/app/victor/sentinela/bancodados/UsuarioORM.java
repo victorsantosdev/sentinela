@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import app.victor.sentinela.bdclasses.Terreno;
 import app.victor.sentinela.bdclasses.Usuario;
 
 public class UsuarioORM {
@@ -57,6 +58,23 @@ public class UsuarioORM {
         values.put(UsuarioORM.COLUMN_NOME, usuario.getNome());
         values.put(UsuarioORM.COLUMN_SENHA, usuario.getSenha());
         return values;
+    }
+    
+    public static Usuario getUsuariofromName(Context context, String NomeUsuario) {
+        DatabaseWrapper databaseWrapper = DatabaseWrapper.getInstance(context);
+        SQLiteDatabase database = databaseWrapper.getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM " + UsuarioORM.TABLE_NAME + " WHERE " + COLUMN_NOME + "=?", new String[] { NomeUsuario });
+        Usuario usuario = null;
+
+        if (cursor != null && cursor.getCount() > 0) {
+            // só tem uma pergunta porque o campo é UNIQUE no BD
+            cursor.moveToFirst();
+            usuario = cursorToUsuario(cursor);
+            Log.v("Debug usuario existente BD", "usuario encontrado == : " + "usuario_nome: " + NomeUsuario);
+            cursor.close();
+            database.close();
+        } 
+        return usuario;
     }
 
     public static List<Usuario> getUsuarios(Context context) {

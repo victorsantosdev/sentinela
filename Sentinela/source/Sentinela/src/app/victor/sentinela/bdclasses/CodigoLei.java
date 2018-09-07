@@ -83,4 +83,17 @@ public class CodigoLei {
         return "CodigoLei [CodigoLeiID=" + CodigoLeiID + ", Codigo=" + Codigo + ", Descricao=" + Descricao + ", ValorInfracao=" + ValorInfracao + "]";
     }
     
+    /* description pattern "Codigo-Descricao" (String)*/
+    public static CodigoLei getCodigoLeiFromDescription (String description) {
+    	
+    	CodigoLei codigoLei = new CodigoLei();
+    	String[] description_split = description.split("-", 2);
+    	if (description_split.length > 0) {
+    		codigoLei.Codigo = description_split[0];
+    		codigoLei.Descricao = description_split[1];
+    		return codigoLei;
+    	}
+    	else return null;     
+    	
+    }
 }

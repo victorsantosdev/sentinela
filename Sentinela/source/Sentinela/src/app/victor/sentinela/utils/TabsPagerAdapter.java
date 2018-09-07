@@ -1,7 +1,6 @@
 package app.victor.sentinela.utils;
 
 import app.victor.sentinela.tabactivity.DetalhesTerrenoFragment;
-import app.victor.sentinela.tabactivity.InfracaoFragment;
 import app.victor.sentinela.tabactivity.NotificacaoFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,9 +22,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		case 1:
 			// fragment de registro de notificacao
 			return new NotificacaoFragment();
-		case 2:
-			// fragment de autuacao
-			return new InfracaoFragment();
+		
 		}
 
 		return null;
@@ -34,7 +31,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// get item count - equal to number of tabs
-		return 3;
+		return 2;
 	}
 
 }

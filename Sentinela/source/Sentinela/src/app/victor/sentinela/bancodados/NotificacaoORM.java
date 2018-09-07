@@ -31,21 +31,12 @@ public class NotificacaoORM {
     private static final String COLUMN_CODIGOLEI_ID_TYPE = "INTEGER NOT NULL";
     private static final String COLUMN_CODIGOLEI_ID = "codigolei_id";
 
-    private static final String COLUMN_NOTIFICACAO_FOTOPATH_TYPE = "TEXT";
-    private static final String COLUMN_NOTIFICACAO_FOTOPATH = "notificacao_fotopath";
-
-    private static final String COLUMN_NOTIFICACAO_DATA_TYPE = "TEXT";
-    private static final String COLUMN_NOTIFICACAO_DATA = "notificacao_data";
-
-
     public static final String SQL_CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     COLUMN_NOTIFICACAO_ID + " " + COLUMN_NOTIFICACAO_ID_TYPE + COMMA_SEP +
                     COLUMN_AGENTE_ID + " " + COLUMN_AGENTE_ID_TYPE + COMMA_SEP +
                     COLUMN_TERRENO_ID + " " + COLUMN_TERRENO_ID_TYPE + COMMA_SEP +
                     COLUMN_CODIGOLEI_ID  + " " + COLUMN_CODIGOLEI_ID_TYPE + COMMA_SEP +
-                    COLUMN_NOTIFICACAO_FOTOPATH + " " + COLUMN_NOTIFICACAO_FOTOPATH_TYPE + COMMA_SEP + 
-                    COLUMN_NOTIFICACAO_DATA + " " + COLUMN_NOTIFICACAO_DATA_TYPE + COMMA_SEP + 
                     "FOREIGN KEY("+COLUMN_AGENTE_ID+") REFERENCES usuario(usuario_id)"  + COMMA_SEP +
                     "FOREIGN KEY("+COLUMN_TERRENO_ID+") REFERENCES terreno(terreno_id)"  + COMMA_SEP +
                     "FOREIGN KEY("+COLUMN_CODIGOLEI_ID+") REFERENCES codigoslei(codigolei_id)"  +
@@ -75,8 +66,6 @@ public class NotificacaoORM {
         values.put(NotificacaoORM.COLUMN_AGENTE_ID, notificacao.getAgenteID());
         values.put(NotificacaoORM.COLUMN_TERRENO_ID, notificacao.getTerrenoID());
         values.put(NotificacaoORM.COLUMN_CODIGOLEI_ID, notificacao.getCodigoLeiID());
-        values.put(NotificacaoORM.COLUMN_NOTIFICACAO_FOTOPATH, notificacao.getNotificacaoFotoPath());
-        values.put(NotificacaoORM.COLUMN_NOTIFICACAO_DATA, notificacao.getNotificacaoData());
         return values;
     }
 
@@ -115,8 +104,6 @@ public class NotificacaoORM {
         notificacao.setAgenteID(cursor.getInt(cursor.getColumnIndex(COLUMN_AGENTE_ID)));
         notificacao.setTerrenoID(cursor.getInt(cursor.getColumnIndex(COLUMN_TERRENO_ID)));
         notificacao.setCodigoLeiID(cursor.getInt(cursor.getColumnIndex(COLUMN_CODIGOLEI_ID)));
-        notificacao.setNotificacaoFotoPath(cursor.getString(cursor.getColumnIndex(COLUMN_NOTIFICACAO_FOTOPATH)));
-        notificacao.setNotificacaoData(cursor.getString(cursor.getColumnIndex(COLUMN_NOTIFICACAO_DATA)));
 
         return notificacao;
     }

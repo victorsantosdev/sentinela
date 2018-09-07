@@ -1,54 +1,103 @@
 package app.victor.sentinela.tabactivity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 import app.victor.sentinela.R;
 import app.victor.sentinela.bancodados.TerrenoORM;
 import app.victor.sentinela.bdclasses.Terreno;
+import app.victor.sentinela.bancodados.CodigoLeiORM;
+import app.victor.sentinela.bdclasses.CodigoLei;
+import app.victor.sentinela.printer.TemplateImpressao;
+
 
 public class NotificacaoFragment extends Fragment implements OnClickListener {
 
     private static int terrenoSelecionadoID = 0;
     private static String cidadeSelecionada;
     private TextView sessionInfo;
-    private ImageView notificacaoFoto;
-
-    // variables
-    private static final int REQUEST_PICTURE = 1000;
-
+    private Spinner spinner_codigoLei, spinner_tipo_autuacao;
+    private String tipo_autuacao_selecionada;
+    private String codigo_lei_selecionado;
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_notificacao, container, false);
         sessionInfo = (TextView) view.findViewById(R.id.username_sessionData);
-
-        // notificacaoFoto = (ImageView)
-        // rootView.findViewById(R.id.imageViewFotoInfracao);
-
         setUserSessionData();
+        spinner_codigoLei = (Spinner) view.findViewById(R.id.spinner_codigolei);
+        spinner_tipo_autuacao = (Spinner) view.findViewById(R.id.spinner_tipo_autuacao);
+        
+        
+    	//fill the spinners with data
+        List<CodigoLei> codigos_disponiveis = CodigoLeiORM.getCodigosLei(getActivity().getApplicationContext());
+        
+        List<String> codigos_disponiveis_str = new ArrayList<String>(codigos_disponiveis.size());
+        for (CodigoLei cod_obj : codigos_disponiveis) {
+        	codigos_disponiveis_str.add(cod_obj != null ? cod_obj.getCodigoLei().toString()+"-"+cod_obj.getDescricao().toString() : null);
+        }
+
+        
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, codigos_disponiveis_str);
+        	dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        	dataAdapter.notifyDataSetChanged();
+
+        	spinner_codigoLei.setAdapter(dataAdapter);
+        	
+        	spinner_codigoLei.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                	codigo_lei_selecionado = spinner_codigoLei.getItemAtPosition(position).toString();
+                	Log.i("NotificacaoFragment", "NFrag: spinner_codigoLei: " + spinner_codigoLei.getItemAtPosition(position).toString());
+                	Toast.makeText(getActivity().getApplicationContext(), "NFrag: spinner_codigoLei: " + spinner_codigoLei.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapter) {
+                	
+                	
+                }
+            });
+        	
+        	spinner_tipo_autuacao.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                	tipo_autuacao_selecionada = spinner_tipo_autuacao.getItemAtPosition(position).toString();
+                	Log.i("NotificacaoFragment", "NFrag: spinner_tipo_autuacao: " + spinner_tipo_autuacao.getItemAtPosition(position).toString());
+                	Toast.makeText(getActivity().getApplicationContext(), "NFrag: spinner_tipo_autuacao:  " + spinner_tipo_autuacao.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapter) {}
+            });
+        	
+
         cidadeSelecionada = DetalhesTerrenoActivity.getCidadeSelecionada();
         terrenoSelecionadoID = DetalhesTerrenoActivity.getTerrenoSelecionadoID();
 
@@ -68,17 +117,6 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
         TextView cidadeTerreno = (TextView) view.findViewById(R.id.terrenoCidade);
         cidadeTerreno.setText(terrenoEscolhido.getCidade() + "/" + terrenoEscolhido.getEstado());
 
-        String formatedDate = getCurrentDateTime();
-
-        File picsDir = null;
-        String picName = "obra-" + formatedDate + ".jpg";
-        File picFile = new File(picsDir, picName);
-
-        Log.d("DEBUG", "foto_path: " + picFile.getAbsolutePath());
-        Log.d("DEBUG", "foto_file: " + picFile.getAbsoluteFile());
-
-        ImageView notificacaoImage = (ImageView) view.findViewById(R.id.imageViewFotoInfracao);
-        notificacaoImage.setOnClickListener(this);
 
         Button buttonVoltar = (Button) view.findViewById(R.id.btn_voltar);
         buttonVoltar.setOnClickListener(this);
@@ -89,13 +127,15 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
         return view;
     }
 
+   
+    
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imageViewFotoInfracao:
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_PICTURE);
-                break;
+//            case R.id.imageViewFotoInfracao:
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent, REQUEST_PICTURE);
+//                break;
             case R.id.btn_voltar:
                 Intent backToMaps = new Intent(getActivity(), app.victor.sentinela.mapstuff.MapsActivity.class);
                 // moveTaskToBack(true);
@@ -104,6 +144,24 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.btn_imprimir:
                 Intent goPrinter = new Intent(getActivity(), app.victor.sentinela.printer.BluetoothPrinterActivity.class);
+                Terreno terrenoEscolhido = TerrenoORM.getTerrenofromID(getActivity().getApplicationContext(), terrenoSelecionadoID);
+                TemplateImpressao dadosImpressao = new TemplateImpressao();
+                dadosImpressao.setAgente(getUserSession_User());
+                dadosImpressao.setDateTime(getCurrentDateTime());
+                dadosImpressao.setTipoInfracao(tipo_autuacao_selecionada);
+                dadosImpressao.setTerrenoProprietario(terrenoEscolhido.getProprietario());
+                dadosImpressao.setTerrenoEndereco(terrenoEscolhido.getEndereco());
+                dadosImpressao.setTerrenoNumero(terrenoEscolhido.getNumero());
+                dadosImpressao.setTerrenoBairro(terrenoEscolhido.getBairro());
+                dadosImpressao.setTerrenoCidade(terrenoEscolhido.getCidade());
+                dadosImpressao.setTerrenoEstado(terrenoEscolhido.getEstado());
+                CodigoLei codigoLei = new CodigoLei();
+                codigoLei = CodigoLei.getCodigoLeiFromDescription(codigo_lei_selecionado);
+                
+                dadosImpressao.setCodigoLei(codigoLei.getCodigoLei());
+                dadosImpressao.setCodigoLeiDescricao(codigoLei.getDescricao());
+                
+                goPrinter.putExtra("dataToBePrinted", dadosImpressao);
                 // moveTaskToBack(true);
                 startActivity(goPrinter);
                 break;
@@ -124,7 +182,7 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
     }
 
     public void setUserSessionData() {
-        //passar pra função, jogar como parametro a textview a escrever usuarioLogado e usuarioUltimoLogin
+        //passar pra funcao, jogar como parametro a textview a escrever usuarioLogado e usuarioUltimoLogin
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(app.victor.sentinela.login.LoginActivity.userPreferences, Context.MODE_PRIVATE);
 
         String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.login.LoginActivity.usuarioLogado, "");
@@ -133,9 +191,33 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
             sessionInfo.setText("Usuaio Logado: " + usuarioLogado + "\nUltimo login: " + usuarioUltimoLogin);
         }
     }
+    
+    public String getUserSession_User() {
+        //passar pra funcao, jogar como parametro a textview a escrever usuarioLogado e usuarioUltimoLogin
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(app.victor.sentinela.login.LoginActivity.userPreferences, Context.MODE_PRIVATE);
 
+        String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.login.LoginActivity.usuarioLogado, "");
+        String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.login.LoginActivity.ultimoLogin, "");
+        if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
+        	return usuarioLogado;
+        }
+        else return null;  
+    }
+
+    public String getUserSession_LastLogin() {
+        //passar pra funcao, jogar como parametro a textview a escrever usuarioLogado e usuarioUltimoLogin
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(app.victor.sentinela.login.LoginActivity.userPreferences, Context.MODE_PRIVATE);
+
+        String usuarioLogado = sharedPreferences.getString(app.victor.sentinela.login.LoginActivity.usuarioLogado, "");
+        String usuarioUltimoLogin = sharedPreferences.getString(app.victor.sentinela.login.LoginActivity.ultimoLogin, "");
+        if (!usuarioLogado.equals("") && !usuarioUltimoLogin.equals("")) {
+        	return usuarioUltimoLogin;
+        }
+        else return null; 
+    }
+    
     public void logout(View view) {
-        //passar pra função, colocar a Activity que esta chamando a função como parâmetro, além de passar o widget a ser clicado, ex: logout(view, this);
+        //passar pra funcao, colocar a Activity que esta chamando a funcao como parametro, alem de passar o widget a ser clicado, ex: logout(view, this);
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(app.victor.sentinela.login.LoginActivity.userPreferences, Context.MODE_PRIVATE);
         Editor editor = sharedPreferences.edit();
         String usuarioLogadoCheck = sharedPreferences.getString(app.victor.sentinela.login.LoginActivity.usuarioLogado, "");
@@ -155,77 +237,14 @@ public class NotificacaoFragment extends Fragment implements OnClickListener {
         startActivity(goLogin);
     }
 
-    // public void btn_voltar() {
-    // Intent backToMaps = new Intent(getActivity(),
-    // app.victor.sentinela.imbituba.mapstuff.MapsActivity.class);
-    // // moveTaskToBack(true);
-    // backToMaps.putExtra("CidadeSelecionada", cidadeSelecionada);
-    // startActivity(backToMaps);
-    // }
 
-    /**
-     * Método chamado quando a aplicação nativa da câmera é finalizada
-     */
-    @SuppressLint("NewApi")
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*
-         * Verifica o código de requisição e se o resultado é OK (outro
-         * resultado indica que// o usuário cancelou a tirada da foto)
-         */
 
-        if (requestCode == REQUEST_PICTURE) {
-            if (resultCode == Activity.RESULT_OK) {
-                
-                Log.v("onActivityResult", "Result:OK");
-
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                // Convert ByteArray to Bitmap::
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-                // notificacaoFoto.setRotation(180);
-                notificacaoFoto.setImageBitmap(bitmap);
-                // notificacaoFoto.getLayoutParams().width = 400;
-                // notificacaoFoto.getLayoutParams().height = 300;
-                // notificacaoFoto.setAdjustViewBounds(true);
-                /* salvar o bitmap */
-                // FileOutputStream out = new FileOutputStream(picFile);
-                // picture.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                // out.flush();
-                // out.close();
-                Toast.makeText(this.getActivity(), "Procedimento de fotografia conclusao com sucesso.", Toast.LENGTH_SHORT).show();
-
-                // Log.d("DEBUG", "fotoPath " +
-                // infracao.get_fotoPath());
-                // // Intent intent1 = new Intent(this,
-                // // MainActivity.class);
-                // Intent intent1 = new Intent(this,
-                // RegistraLocalizacao.class);
-                // startActivity(intent1);
-
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // User cancelled the image capture
-                Toast.makeText(this.getActivity(), "Interfaceamento com a camera cancelado.", Toast.LENGTH_SHORT).show();
-                // Intent goDetalhesTerreno = new Intent(this.getActivity(),
-                // DetalhesTerrenoActivity.class);
-                // startActivity(goDetalhesTerreno);
-
-            } else {
-                // Image capture failed, advise user
-                Toast.makeText(this.getActivity(), "Ocorreu um erro na interface com a camera do dispositivo.", Toast.LENGTH_SHORT).show();
-                // Intent goDetalhesTerreno = new Intent(this.getActivity(),
-                // DetalhesTerrenoActivity.class);
-                // startActivity(goDetalhesTerreno);
-            }
-        }
-
-    }
-
+//    public void btn_voltar(View view) {
+//    	
+//        Intent backToMaps = new Intent(this, app.victor.sentinela.mapstuff.MapsActivity.class);
+//        //moveTaskToBack(true);
+//        backToMaps.putExtra("cidadeSelecionada", cidadeSelecionada);
+//        startActivity(backToMaps);
+//    }
 
 }

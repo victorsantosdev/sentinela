@@ -6,8 +6,6 @@ public class Notificacao {
     private int AgenteID;
     private int TerrenoID;
     private int CodigoLeiID;
-    private String NotificacaoFotoPath;
-    private String NotificacaoData;
     
     public int getNotificacaoID() {
         return NotificacaoID;
@@ -33,18 +31,7 @@ public class Notificacao {
     public void setCodigoLeiID(int codigoLeiID) {
         CodigoLeiID = codigoLeiID;
     }
-    public String getNotificacaoFotoPath() {
-        return NotificacaoFotoPath;
-    }
-    public void setNotificacaoFotoPath(String notificacaoFotoPath) {
-        NotificacaoFotoPath = notificacaoFotoPath;
-    }
-    public String getNotificacaoData() {
-        return NotificacaoData;
-    }
-    public void setNotificacaoData(String notificacaoData) {
-        NotificacaoData = notificacaoData;
-    }
+
     
     @Override
     public int hashCode() {
@@ -53,8 +40,6 @@ public class Notificacao {
         result = prime * result + AgenteID;
         result = prime * result + CodigoLeiID;
         result = prime * result + NotificacaoID;
-        result = prime * result + ((NotificacaoData == null) ? 0 : NotificacaoData.hashCode());
-        result = prime * result + ((NotificacaoFotoPath == null) ? 0 : NotificacaoFotoPath.hashCode());
         result = prime * result + TerrenoID;
         return result;
     }
@@ -74,24 +59,13 @@ public class Notificacao {
             return false;
         if (NotificacaoID != other.NotificacaoID)
             return false;
-        if (NotificacaoData == null) {
-            if (other.NotificacaoData != null)
-                return false;
-        } else if (!NotificacaoData.equals(other.NotificacaoData))
-            return false;
-        if (NotificacaoFotoPath == null) {
-            if (other.NotificacaoFotoPath != null)
-                return false;
-        } else if (!NotificacaoFotoPath.equals(other.NotificacaoFotoPath))
-            return false;
         if (TerrenoID != other.TerrenoID)
             return false;
         return true;
     }
     @Override
     public String toString() {
-        return "Notificacao [NotificacaoID=" + NotificacaoID + ", AgenteID=" + AgenteID + ", TerrenoID=" + TerrenoID + ", CodigoLeiID=" + CodigoLeiID + ", NotificacaoFotoPath="
-                + NotificacaoFotoPath + ", NotificacaoData=" + NotificacaoData + "]";
+        return "Notificacao [NotificacaoID=" + NotificacaoID + ", AgenteID=" + AgenteID + ", TerrenoID=" + TerrenoID + ", CodigoLeiID=" + CodigoLeiID + "]";
     }
     
 }

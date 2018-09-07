@@ -23,7 +23,7 @@ ActionBar.TabListener {
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     // Tab titles
-    private String[] tabs = { "Detalhes", "Notificacao", "Multa" };
+    private String[] tabs = { "Detalhes", "Notificacao  e  Multa" };
     private static int terrenoSelecionadoID = 0;
     private static String cidadeSelecionada;
     @SuppressWarnings("deprecation")

@@ -30,22 +30,229 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dip" >
-    
-    <ImageView
-        android:id="@+id/imageView1"
+    <ScrollView
+        android:id="@+id/scrollView_notificacao"
         android:layout_width="match_parent"
-        android:layout_height="307dp"
-        android:layout_weight="0.75"
-        android:src="@android:drawable/screen_background_light" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_weight="1.01" >
 
-</LinearLayout>
+        <!-- <LinearLayout -->
+        <!-- android:id="@+id/ll_questionario" -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:orientation="vertical" > -->
+        <!-- </LinearLayout> -->
+
+        <TableLayout
+            android:id="@+id/notificacaoTable_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/tipoAutuacaoTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Tipo de Autuação:" />
+
+                <TextView
+                    android:id="@+id/tipoAutuacao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/agenteTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Agente:" />
+
+                <TextView
+                    android:id="@+id/agente"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/dataHoraTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Data/Hora:" />
+
+                <TextView
+                    android:id="@+id/dataHora"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/terrenoProprietarioTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Proprietário:" />
+
+                <TextView
+                    android:id="@+id/terrenoProprietario"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/terrenoEnderecoNumeroTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Endereço:" />
+
+                <TextView
+                    android:id="@+id/terrenoEndereco"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/terrenoBairroTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Bairro:" />
+
+                <TextView
+                    android:id="@+id/terrenoBairro"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/terrenoCidadeTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Cidade/UF:" />
+
+                <TextView
+                    android:id="@+id/terrenoCidade"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/codigoLeiTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Código de Lei:" />
+
+                <TextView
+                    android:id="@+id/codigoLei"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/codigoleiDescricaoTexto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Descrição:" />
+
+                <TextView
+                    android:id="@+id/codigoleiDescricao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -53,19 +260,21 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dip" >
+
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/btn_voltar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="btn_voltar"
             android:text="Voltar" />
+
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_imprimir_notificacao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Imprimir" />
-            
     </LinearLayout>
 
 </LinearLayout>

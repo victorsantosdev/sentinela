@@ -157,8 +157,13 @@ public class HomeActivity extends Activity {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
             
+            
+            //rede santos
+            //String ServerIP = "http://192.168.25.81";
+            //rede lmpt
+            String ServerIP = "http://10.42.0.96";
             //rede bia
-            String ServerIP = "http://192.168.137.1";
+            //String ServerIP = "http://192.168.137.1";
             //localhost with the emulator
             //String ServerIP = "http://10.0.2.2";
             

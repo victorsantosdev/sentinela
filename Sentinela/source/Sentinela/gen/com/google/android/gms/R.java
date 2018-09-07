@@ -71,11 +71,11 @@ public final class R {
 		public static final int ic_plusone_tall_off_client = 0x7f02011b;
 	}
 	public static final class id {
-		public static final int hybrid = 0x7f0a0000;
-		public static final int none = 0x7f0a0001;
-		public static final int normal = 0x7f0a0002;
-		public static final int satellite = 0x7f0a0003;
-		public static final int terrain = 0x7f0a0004;
+		public static final int hybrid = 0x7f0b0000;
+		public static final int none = 0x7f0b0001;
+		public static final int normal = 0x7f0b0002;
+		public static final int satellite = 0x7f0b0003;
+		public static final int terrain = 0x7f0b0004;
 	}
 	public static final class integer {
 		public static final int google_play_services_version = 0x7f060000;
